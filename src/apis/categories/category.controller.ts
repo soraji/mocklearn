@@ -10,7 +10,7 @@ export class CategoryController{
 
   @Get('/')
   async getCategory(){
-    return this.categoryService.fetchAll()
+    return await this.categoryService.fetchAll()
   }
   
   @Post('/')
@@ -19,7 +19,7 @@ export class CategoryController{
   ):Promise<LectureCategory>{
     const name = body.name;
     if(name === undefined) throw new UnprocessableEntityException('카테고리 이름을 입력해주세요');
-    return this.categoryService.create({name})
+    return await this.categoryService.create({name})
     
   }
 
@@ -29,13 +29,13 @@ export class CategoryController{
     @Param('id') id:string
   ){
     const name = body.name;
-    return this.categoryService.update({id, name});
+    return await this.categoryService.update({id, name});
   }
 
   @Delete('/:id')
   async deleteCategory(
     @Param('id') id:string
   ){
-    return this.categoryService.delete({id});
+    return await this.categoryService.delete({id});
   }
 }
