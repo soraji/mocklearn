@@ -28,4 +28,7 @@ export class User {
 
   @Column({ type: 'enum', enum: USER_ENUM })
   role: string;
+
+  @Column()
+  paid:number
 }

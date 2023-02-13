@@ -5,18 +5,24 @@ import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './apis/users/user.module';
 import { LectureCategoriesModule } from './apis/categories/category.module';
 import { LecturesModule } from './apis/lectures/lecture.module';
+import { PaymentsModule } from './apis/payments/payment.module';
+import { ReviewModule } from './apis/review/review.module';
+import { ImageMainLectureModule } from './apis/imageMainLecture/imageMainLecture.module';
 
 
 
 
 @Module({
   imports: [
-    LectureCategoriesModule,
-    LecturesModule,
-    UsersModule,
     ConfigModule.forRoot({
       isGlobal:true
     }),
+    LectureCategoriesModule,
+    LecturesModule,
+    UsersModule,
+    PaymentsModule,
+    ReviewModule,
+    ImageMainLectureModule,
     TypeOrmModule.forRoot({
       type: process.env.DATABASE_TYPE as 'mysql',
       host: process.env.DATABASE_HOST,
