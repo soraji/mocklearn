@@ -4,6 +4,7 @@ import { CreateUserInput } from "./dto/create-user.dto";
 import { UpdateUserInput } from "./dto/update-user.dto";
 import { User } from "./entities/user.entity";
 import { UserService } from "./user.service";
+import { ApiBody, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 interface IOAuthUser {
   user: {
@@ -14,6 +15,7 @@ interface IOAuthUser {
 }
 
 @Controller('user')
+@ApiTags('유저 API')
 export class UserController {
   constructor(
     private readonly userService: UserService,
@@ -21,11 +23,13 @@ export class UserController {
 
   //----------------- 조회 -----------------------//
   @Get('/')
+  @ApiOperation({ summary: '유저 전체 조회', description: '유저 전체 조회 API' })
   async fetchAllLecture(){
     return await this.userService.fetchAll()
   }
   
   @Get('/:id')
+  @ApiOperation({ summary: '유저 단일 조회', description: '유저 단일 조회 API' })
   async fetchLecture(
     @Param('id') id:string
     ){
@@ -34,14 +38,16 @@ export class UserController {
     
   //----------------- 생성 -----------------------//
   @Post('/')
+  @ApiOperation({ summary: '유저 생성', description: '유저 생성 API' })
   async createLecture(
     @Body() createUserInput:CreateUserInput
     ){
       return await this.userService.create({createUserInput})
     }
-    
-  //----------------- 업데이트 -----------------------//
+      
+      //----------------- 업데이트 -----------------------//
   @Patch('/:id')
+  @ApiOperation({ summary: '유저 업데이트', description: '유저 업데이트 API' })
   async updateLecture(
     @Body() updateUserInput:UpdateUserInput,
     @Param('id') id:string
@@ -49,8 +55,9 @@ export class UserController {
       return await this.userService.update({id, updateUserInput});
     }
     
-  //----------------- 삭제 -----------------------//
+    //----------------- 삭제 -----------------------//
   @Delete('/:id')
+  @ApiOperation({ summary: '유저 삭제', description: '유저 삭제 API' })
   async deleteLecture(
     @Param('id') id:string
   ){
