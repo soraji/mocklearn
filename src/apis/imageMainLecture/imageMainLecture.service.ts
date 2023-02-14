@@ -3,6 +3,9 @@ import * as multer from 'multer';
 import * as AWS from 'aws-sdk';
 import * as multerS3 from 'multer-s3';
 import { S3Client } from '@aws-sdk/client-s3';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import {ImageMainLecture} from './entities/imageMainLecture.entity'
 
 
 AWS.config.update({
@@ -14,22 +17,25 @@ AWS.config.update({
 
 @Injectable()
 export class ImageMainLectureService {
-  constructor() {}
+  constructor(
+    @InjectRepository(ImageMainLecture)
+    private readonly imageMainRepository: Repository<ImageMainLecture>,
+  ) {}
   
   async fileupload(@Req() req, @Res() res) {
-    try {
-      this.upload(req, res, function(error) {
-        if (error) {
-          console.log(error);
-          return res.status(404).json(`Failed to upload image file: ${error}`);
-        }
-        // console.log(req.files);
-        return res.status(201).json(req.files[0].location);
-      });
-    } catch (error) {
-      console.log(error);
-      return res.status(500).json(`Failed to upload image file: ${error}`);
-    }
+    const imageMainRepository = this.imageMainRepository;
+    const result = this.upload(req, res, async function(error) {
+      if (error) {
+        console.log(error);
+        return res.status(404).json(`강의 썸네일 이미지 업로드에 실패했습니다: ${error}`);
+      }
+      
+      await imageMainRepository.save({
+        url: req.files[0].location
+      })
+      res.status(201).json(req.files[0].location);
+    });
+    console.log(result);
   }
 
   upload = multer({
@@ -45,7 +51,7 @@ export class ImageMainLectureService {
       bucket: process.env.AWS_BUCKET_NAME,
       acl: 'public-read',
       key: function(request, file, cb) {
-        cb(null, `image/${Date.now().toString()}-${file.originalname}`);
+        cb(null, `image/main/${Date.now().toString()}-${file.originalname}`);
       },
     }),
   }).array('upload', 1);
