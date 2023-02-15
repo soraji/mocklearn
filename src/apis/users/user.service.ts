@@ -1,7 +1,8 @@
-import { UnprocessableEntityException } from "@nestjs/common";
+import { ConflictException, UnprocessableEntityException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
 import { User } from "./entities/user.entity";
+import * as bcrypt from 'bcrypt';
 
 export class UserService{
   constructor(
@@ -23,12 +24,26 @@ export class UserService{
     return result;
   }
 
+  async findUserByEmail({email}){
+    const result = await this.userRepository.findOne({
+      where:{email:email},
+    })
+
+    return result;
+  }
+
 
   async create({createUserInput}){
-    const { ...user} = createUserInput;
+    const { email, password, ...rest} = createUserInput;
 
+    const user = await this.userRepository.findOne({ where:{ email } })
+    if(user) throw new ConflictException('이미 가입된 이메일입니다');
+
+    const hashedPassword = await bcrypt.hash(password, 10); 
     const result = await this.userRepository.save({
-      ...user
+      email,
+      password: hashedPassword,
+      ...rest
     })
 
     return result;

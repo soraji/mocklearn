@@ -1,5 +1,7 @@
 import { LectureCategory } from 'src/apis/categories/entities/category.entity';
-import { LectureTag } from 'src/apis/lectureTags/entities/lectureTag.entity';
+import { Curriculum } from 'src/apis/curriculum/entities/curriculum.entity';
+import { ImageDetailLecture } from 'src/apis/imageDetailLecture/entities/imageDetailLecture.entity';
+import { ImageMainLecture } from 'src/apis/imageMainLecture/entities/imageMainLecture.entity';
 import {
   Column,
   Entity,
@@ -7,6 +9,9 @@ import {
   ManyToOne,
   ManyToMany,
   PrimaryGeneratedColumn,
+  JoinColumn,
+  OneToOne,
+  OneToMany,
 } from 'typeorm';
 
 
@@ -36,7 +41,14 @@ export class Lecture {
   @ManyToOne(() => LectureCategory)
   lectureCategory: LectureCategory;
 
-  @JoinTable()
-  @ManyToMany(() => LectureTag, (lectureTags) => lectureTags.lectures)
-  lectureTags: LectureTag[];
+  @JoinColumn()
+  @OneToOne(() => Curriculum)
+  curriculum: Curriculum;
+
+  @JoinColumn()
+  @OneToOne(() => ImageMainLecture)
+  imageMainLecture: ImageMainLecture;
+
+  @OneToMany(() => ImageDetailLecture, (imageDetailLecture) => imageDetailLecture.lecture)
+  imageDetailLecture: ImageDetailLecture[];
 }

@@ -1,13 +1,17 @@
-import { Controller, Post, Req, Res, UseInterceptors } from '@nestjs/common';
-import { ApiBody, ApiConsumes, ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Controller, Post, Req, Res, UseGuards, UseInterceptors } from '@nestjs/common';
+import { ApiBearerAuth, ApiBody, ApiConsumes, ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ImageUserService } from './imageUser.service';
 import {ImageUser} from './entities/imageUser.entity'
 import { FileInterceptor } from '@nestjs/platform-express';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('imageUser')
 @ApiTags('유저 이미지 업로드 API')
+@UseGuards(AuthGuard("teacher"))
 export class ImageUserController {
   constructor(private readonly imageUserService: ImageUserService) {}
+
+  @ApiBearerAuth()
   @Post()
   @ApiOperation({ summary: '유저 이미지 업로드', description: '유저 이미지 업로드 API' })
   @ApiCreatedResponse({ description: '이미지 등록이 완료되면 이미지 url을 보여줍니다' })

@@ -1,6 +1,9 @@
+import { ImageUser } from 'src/apis/imageUser/entities/imageUser.entity';
 import {
   Column,
   Entity,
+  JoinColumn,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -29,6 +32,10 @@ export class User {
   @Column({ type: 'enum', enum: USER_ENUM })
   role: string;
 
-  @Column()
+  @Column({default:0})
   paid:number
+
+  @JoinColumn()
+  @OneToOne(() => ImageUser)
+  imageUser: ImageUser;
 }

@@ -1,11 +1,14 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UnprocessableEntityException } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, UnprocessableEntityException, UseGuards } from "@nestjs/common";
 import { ReviewService } from "./review.service";
-import { ApiBody, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CreateReviewInput } from "./dto/create-review.dto";
 import { UpdateReviewInput } from "./dto/update-review.dto";
+import { AuthGuard } from "@nestjs/passport";
 
 @Controller('review')
 @ApiTags('수강평 API')
+@ApiBearerAuth()
+@UseGuards(AuthGuard("access"))
 export class ReviewController{
   constructor(
     private readonly reviewService: ReviewService,

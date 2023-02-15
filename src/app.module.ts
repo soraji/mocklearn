@@ -8,6 +8,14 @@ import { LecturesModule } from './apis/lectures/lecture.module';
 import { PaymentsModule } from './apis/payments/payment.module';
 import { ReviewModule } from './apis/review/review.module';
 import { ImageMainLectureModule } from './apis/imageMainLecture/imageMainLecture.module';
+import { ImageUserModule } from './apis/imageUser/imageUser.module';
+import { ImageDetailLectureModule } from './apis/imageDetailLecture/imageDetailLecture.module';
+import { LectureDetailsModule } from './apis/lectureDetails/lectureDetail.module';
+import { CurriculumsModule } from './apis/curriculum/curriculum.module';
+import { AuthModule } from './apis/auth/auth.module';
+import { JwtAccessStrategy } from './common/auth/jwt-access.strategy';
+import { JwtRefreshStrategy } from './common/auth/jwt-refresh.strategy';
+import { JwtTeacherStrategy } from './common/auth/jwt-teacher.strategy';
 
 
 
@@ -23,6 +31,11 @@ import { ImageMainLectureModule } from './apis/imageMainLecture/imageMainLecture
     PaymentsModule,
     ReviewModule,
     ImageMainLectureModule,
+    ImageUserModule,
+    ImageDetailLectureModule,
+    LectureDetailsModule,
+    CurriculumsModule,
+    AuthModule,
     TypeOrmModule.forRoot({
       type: process.env.DATABASE_TYPE as 'mysql',
       host: process.env.DATABASE_HOST,
@@ -36,6 +49,11 @@ import { ImageMainLectureModule } from './apis/imageMainLecture/imageMainLecture
     }),
   ],
   controllers: [AppController],
+  providers: [
+    JwtAccessStrategy, //
+    JwtRefreshStrategy,
+    JwtTeacherStrategy
+  ],
 })
 
 export class AppModule {}

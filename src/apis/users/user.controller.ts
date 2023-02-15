@@ -6,14 +6,6 @@ import { User } from "./entities/user.entity";
 import { UserService } from "./user.service";
 import { ApiBody, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 
-interface IOAuthUser {
-  user: {
-    name: string;
-    email: string;
-    password: string;
-  };
-}
-
 @Controller('user')
 @ApiTags('유저 API')
 export class UserController {

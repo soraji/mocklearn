@@ -1,9 +1,10 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UnprocessableEntityException } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, UnprocessableEntityException, UseGuards } from "@nestjs/common";
 import { CreateLectureInput } from "./dto/create-lecture.dto";
 import { UpdateLectureInput } from "./dto/update-lecture.dto";
 import { Lecture } from "./entities/lecture.entity";
 import { LectureService } from "./lecture.service";
-import { ApiBody, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from "@nestjs/passport";
 
 @Controller('lecture')
 @ApiTags('강의 API')
@@ -29,6 +30,8 @@ export class LectureController{
     
   //----------------- 생성 -----------------------//
   @Post('/')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard("teacher"))
   @ApiOperation({ summary: '강의 생성', description: '강의 생성 API' })
   async createLecture(
     @Body() createLectureInput:CreateLectureInput
@@ -38,6 +41,8 @@ export class LectureController{
     
   //----------------- 업데이트 -----------------------//
   @Patch('/:id')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard("teacher"))
   @ApiOperation({ summary: '강의 업데이트', description: '강의 업데이트 API' })
   async updateLecture(
     @Body() updateLectureInput:UpdateLectureInput,
@@ -48,6 +53,8 @@ export class LectureController{
     
   //----------------- 삭제 -----------------------//
   @Delete('/:id')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard("teacher"))
   @ApiOperation({ summary: '강의 삭제', description: '강의 삭제 API' })
   async deleteLecture(
     @Param('id') id:string
