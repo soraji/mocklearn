@@ -1,7 +1,8 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UnprocessableEntityException } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, UnprocessableEntityException, UseGuards } from "@nestjs/common";
 import { CategoryService } from "./category.service";
 import { LectureCategory } from "./entities/category.entity";
-import { ApiBody, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiCreatedResponse, ApiOkResponse, ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { AuthGuard } from "@nestjs/passport";
 
 @Controller('category')
 @ApiTags('강의 카테고리 API')
@@ -18,6 +19,8 @@ export class CategoryController{
   }
   
   @Post('/')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard("teacher"))
   @ApiOperation({ summary: '강의 카테고리 생성', description: '강의 카테고리 생성 API' })
   @ApiCreatedResponse({ description: '강의 카테고리 생성', type:LectureCategory })
   @ApiBody({
@@ -37,6 +40,8 @@ export class CategoryController{
   }
 
   @Patch('/:id')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard("teacher"))
   @ApiOperation({ summary: '강의 카테고리 수정', description: '강의 카테고리 수정 API' })
   @ApiCreatedResponse({ description: '강의 카테고리 수정', type:LectureCategory })
   @ApiBody({
@@ -55,6 +60,8 @@ export class CategoryController{
   }
 
   @Delete('/:id')
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard("teacher"))
   @ApiOperation({ summary: '강의 카테고리 삭제', description: '강의 카테고리 삭제 API' })
   @ApiResponse({status:200, description:'삭제완료'})
   async deleteCategory(
