@@ -1,5 +1,30 @@
-# mocklearn
-인프런 mocking한 모크런 ˚ ₊ ෆ꒰◍ᐡᐤᐡ◍꒱
+# Description
+[인프런](https://www.inflearn.com/) 사이트를 mocking한 개인 프로젝트 모크런입니다 ˚ ₊ ෆ꒰◍ᐡᐤᐡ◍꒱
+
+<br>
+
+<br>
+
+# Swagger
+
+*배포 후 링크 추가 예정*
+
+<br>
+
+<br>
+
+# Stack
+
+* NestJS
+* TypeSrcipt
+* EC2, S3, RDS
+* swagger
+* Jest
+* mysql
+
+<br>
+
+<br>
 
 # ERD
 https://www.erdcloud.com/d/vy74tce9trxBGQe4q
