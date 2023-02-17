@@ -37,7 +37,7 @@ let AuthController = class AuthController {
         return this.authService.getAccessToken({ user });
     }
     restoreAccessToken(req, res) {
-        return "";
+        return '';
     }
     async loginGoogle(req, res) {
         this.authService.OAuthLogin({ req, res });
@@ -50,7 +50,7 @@ let AuthController = class AuthController {
     }
 };
 __decorate([
-    (0, common_1.Post)("/login"),
+    (0, common_1.Post)('/login'),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Res)({ passthrough: true })),
     __metadata("design:type", Function),
@@ -58,16 +58,16 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "login", null);
 __decorate([
-    (0, common_1.Post)("/restoreToken"),
+    (0, common_1.Post)('/restoreToken'),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Res)({ passthrough: true })),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Request, Object]),
+    __metadata("design:paramtypes", [Object, Object]),
     __metadata("design:returntype", String)
 ], AuthController.prototype, "restoreAccessToken", null);
 __decorate([
-    (0, common_1.Get)("/login/google"),
-    (0, common_1.UseGuards)((0, passport_1.AuthGuard)("google")),
+    (0, common_1.Get)('/login/google'),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('google')),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
@@ -75,8 +75,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "loginGoogle", null);
 __decorate([
-    (0, common_1.Get)("/login/kakao"),
-    (0, common_1.UseGuards)((0, passport_1.AuthGuard)("kakao")),
+    (0, common_1.Get)('/login/kakao'),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('kakao')),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
@@ -84,8 +84,8 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "loginKakao", null);
 __decorate([
-    (0, common_1.Get)("/login/naver"),
-    (0, common_1.UseGuards)((0, passport_1.AuthGuard)("naver")),
+    (0, common_1.Get)('/login/naver'),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('naver')),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),

@@ -1,6 +1,6 @@
-import { Response } from 'express';
-import { UserService } from "../users/user.service";
-import { AuthService } from "./auth.service";
+import { Request, Response } from 'express';
+import { UserService } from '../users/user.service';
+import { AuthService } from './auth.service';
 interface IOAuthUser {
     user: {
         name: string;
