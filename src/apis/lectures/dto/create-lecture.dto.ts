@@ -5,8 +5,6 @@ export class CreateLectureInput {
 
   teacher: string;
 
-  imgurl: string;
-
   star: string;
 
   lectureCategoryId: string;

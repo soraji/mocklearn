@@ -33,9 +33,6 @@ export class Lecture {
   star: string;
 
   @Column()
-  imgurl: string;
-
-  @Column()
   reviewCount: number;
 
   @ManyToOne(() => LectureCategory)
