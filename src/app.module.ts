@@ -17,13 +17,10 @@ import { JwtAccessStrategy } from './common/auth/jwt-access.strategy';
 import { JwtRefreshStrategy } from './common/auth/jwt-refresh.strategy';
 import { JwtTeacherStrategy } from './common/auth/jwt-teacher.strategy';
 
-
-
-
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal:true
+      isGlobal: true
     }),
     LectureCategoriesModule,
     LecturesModule,
@@ -45,15 +42,14 @@ import { JwtTeacherStrategy } from './common/auth/jwt-teacher.strategy';
       database: process.env.DATABASE_DATABASE,
       entities: [__dirname + '/apis/**/*.entity.*'],
       synchronize: true,
-      logging: true,
-    }),
+      logging: true
+    })
   ],
   controllers: [AppController],
   providers: [
     JwtAccessStrategy, //
     JwtRefreshStrategy,
     JwtTeacherStrategy
-  ],
+  ]
 })
-
 export class AppModule {}

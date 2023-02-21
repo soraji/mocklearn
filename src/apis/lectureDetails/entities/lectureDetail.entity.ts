@@ -5,10 +5,10 @@ import {
   Entity,
   JoinColumn,
   PrimaryGeneratedColumn,
-  OneToOne,
+  OneToOne
 } from 'typeorm';
 
-export enum LEVEL_ENUM  {
+export enum LEVEL_ENUM {
   'BEGINNER' = 'BEGINNER',
   'INTERMEDIATE' = 'INTERMEDIATE',
   'ADVANCED' = 'ADVANCED'
@@ -28,7 +28,7 @@ export class LectureDetail {
   @Column({ type: 'enum', enum: LEVEL_ENUM })
   level: string;
 
-  @Column()
+  @Column('longtext')
   description: string;
 
   @JoinColumn()

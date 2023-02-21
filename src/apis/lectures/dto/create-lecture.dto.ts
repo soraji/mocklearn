@@ -1,3 +1,5 @@
+import { LEVEL_ENUM } from 'src/apis/lectureDetails/entities/lectureDetail.entity';
+
 export class CreateLectureInput {
   title: string;
 
@@ -7,5 +9,18 @@ export class CreateLectureInput {
 
   star: string;
 
+  imageMainUrl: string;
+
   lectureCategoryId: string;
+
+  //세부정보 입력
+  many: string;
+
+  expire: string;
+
+  description: string;
+
+  level: LEVEL_ENUM;
+
+  imageDetailLecture: string[];
 }

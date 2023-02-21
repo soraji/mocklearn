@@ -10,4 +10,6 @@ export class CreateUserInput {
   password: string;
 
   role: USER_ENUM;
+
+  imageUser : string;
 }

@@ -2,6 +2,7 @@ import { LectureCategory } from 'src/apis/categories/entities/category.entity';
 import { Curriculum } from 'src/apis/curriculum/entities/curriculum.entity';
 import { ImageDetailLecture } from 'src/apis/imageDetailLecture/entities/imageDetailLecture.entity';
 import { ImageMainLecture } from 'src/apis/imageMainLecture/entities/imageMainLecture.entity';
+import { LectureDetail } from 'src/apis/lectureDetails/entities/lectureDetail.entity';
 import {
   Column,
   Entity,
@@ -11,9 +12,8 @@ import {
   PrimaryGeneratedColumn,
   JoinColumn,
   OneToOne,
-  OneToMany,
+  OneToMany
 } from 'typeorm';
-
 
 @Entity()
 export class Lecture {
@@ -43,9 +43,16 @@ export class Lecture {
   curriculum: Curriculum;
 
   @JoinColumn()
+  @OneToOne(() => LectureDetail)
+  lectureDetail: LectureDetail;
+
+  @JoinColumn()
   @OneToOne(() => ImageMainLecture)
   imageMainLecture: ImageMainLecture;
 
-  @OneToMany(() => ImageDetailLecture, (imageDetailLecture) => imageDetailLecture.lecture)
+  @OneToMany(
+    () => ImageDetailLecture,
+    imageDetailLecture => imageDetailLecture.lecture
+  )
   imageDetailLecture: ImageDetailLecture[];
 }

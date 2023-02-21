@@ -13,7 +13,6 @@ export class ImageMainLecture {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({default:""})
   url: string;
-
 }
