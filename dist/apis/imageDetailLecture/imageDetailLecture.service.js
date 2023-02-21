@@ -23,7 +23,7 @@ const typeorm_1 = require("typeorm");
 const typeorm_2 = require("@nestjs/typeorm");
 AWS.config.update({
     accessKeyId: process.env.AWS_BUCKET_ACCESS_KEY,
-    secretAccessKey: process.env.AWS_BUCKET_SECRET_KEY,
+    secretAccessKey: process.env.AWS_BUCKET_SECRET_KEY
 });
 let ImageDetailLectureService = class ImageDetailLectureService {
     constructor(imageDetailRepository) {
@@ -33,32 +33,32 @@ let ImageDetailLectureService = class ImageDetailLectureService {
                 s3: new client_s3_1.S3Client({
                     credentials: {
                         accessKeyId: process.env.AWS_BUCKET_ACCESS_KEY,
-                        secretAccessKey: process.env.AWS_BUCKET_SECRET_KEY,
+                        secretAccessKey: process.env.AWS_BUCKET_SECRET_KEY
                     },
-                    region: 'ap-northeast-2',
+                    region: 'ap-northeast-2'
                 }),
                 contentType: multerS3.AUTO_CONTENT_TYPE,
                 bucket: process.env.AWS_BUCKET_NAME,
                 acl: 'public-read',
                 key: function (request, file, cb) {
                     cb(null, `image/detail/${Date.now().toString()}-${file.originalname}`);
-                },
-            }),
-        }).array('upload', 1);
+                }
+            })
+        }).array('upload', 10);
     }
     async fileupload(req, res) {
-        const imageDetailRepository = this.imageDetailRepository;
-        const result = this.upload(req, res, async function (error) {
+        this.upload(req, res, async function (error) {
             if (error) {
                 console.log(error);
-                return res.status(404).json(`강의 상세페이지 이미지 업로드에 실패했습니다: ${error}`);
+                return res
+                    .status(404)
+                    .json(`강의 상세페이지 이미지 업로드에 실패했습니다: ${error}`);
             }
-            await imageDetailRepository.save({
-                url: req.files[0].location
+            const location = req.files.map(el => {
+                return el.location;
             });
-            res.status(201).json(req.files[0].location);
+            res.status(201).json(location);
         });
-        console.log(result);
     }
 };
 __decorate([

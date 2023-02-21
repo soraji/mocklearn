@@ -1,6 +1,6 @@
-import { Repository } from "typeorm";
-import { Payment } from "../payments/entities/payment.entity";
-import { IPaymentsServiceFetchData } from "../payments/interface/payment-service.interface";
+import { Repository } from 'typeorm';
+import { Payment } from '../payments/entities/payment.entity';
+import { IPaymentsServiceFetchData } from '../payments/interface/payment-service.interface';
 export declare class IamPortService {
     private readonly paymentsRepository;
     constructor(paymentsRepository: Repository<Payment>);

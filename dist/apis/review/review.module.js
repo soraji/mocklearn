@@ -10,6 +10,7 @@ exports.ReviewModule = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const lecture_entity_1 = require("../lectures/entities/lecture.entity");
+const user_entity_1 = require("../users/entities/user.entity");
 const review_entity_1 = require("./entities/review.entity");
 const review_controller_1 = require("./review.controller");
 const review_service_1 = require("./review.service");
@@ -17,7 +18,7 @@ let ReviewModule = class ReviewModule {
 };
 ReviewModule = __decorate([
     (0, common_1.Module)({
-        imports: [typeorm_1.TypeOrmModule.forFeature([review_entity_1.Review, lecture_entity_1.Lecture])],
+        imports: [typeorm_1.TypeOrmModule.forFeature([review_entity_1.Review, lecture_entity_1.Lecture, user_entity_1.User])],
         providers: [review_service_1.ReviewService],
         controllers: [review_controller_1.ReviewController]
     })

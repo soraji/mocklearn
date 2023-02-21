@@ -53,15 +53,15 @@ AppModule = __decorate([
                 database: process.env.DATABASE_DATABASE,
                 entities: [__dirname + '/apis/**/*.entity.*'],
                 synchronize: true,
-                logging: true,
-            }),
+                logging: true
+            })
         ],
         controllers: [app_controller_1.AppController],
         providers: [
             jwt_access_strategy_1.JwtAccessStrategy,
             jwt_refresh_strategy_1.JwtRefreshStrategy,
             jwt_teacher_strategy_1.JwtTeacherStrategy
-        ],
+        ]
     })
 ], AppModule);
 exports.AppModule = AppModule;

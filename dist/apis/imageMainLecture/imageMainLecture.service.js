@@ -23,7 +23,7 @@ const typeorm_2 = require("typeorm");
 const imageMainLecture_entity_1 = require("./entities/imageMainLecture.entity");
 AWS.config.update({
     accessKeyId: process.env.AWS_BUCKET_ACCESS_KEY,
-    secretAccessKey: process.env.AWS_BUCKET_SECRET_KEY,
+    secretAccessKey: process.env.AWS_BUCKET_SECRET_KEY
 });
 let ImageMainLectureService = class ImageMainLectureService {
     constructor(imageMainRepository) {
@@ -33,17 +33,17 @@ let ImageMainLectureService = class ImageMainLectureService {
                 s3: new client_s3_1.S3Client({
                     credentials: {
                         accessKeyId: process.env.AWS_BUCKET_ACCESS_KEY,
-                        secretAccessKey: process.env.AWS_BUCKET_SECRET_KEY,
+                        secretAccessKey: process.env.AWS_BUCKET_SECRET_KEY
                     },
-                    region: 'ap-northeast-2',
+                    region: 'ap-northeast-2'
                 }),
                 contentType: multerS3.AUTO_CONTENT_TYPE,
                 bucket: process.env.AWS_BUCKET_NAME,
                 acl: 'public-read',
                 key: function (request, file, cb) {
                     cb(null, `image/main/${Date.now().toString()}-${file.originalname}`);
-                },
-            }),
+                }
+            })
         }).array('upload', 1);
     }
     async fileupload(req, res) {
@@ -51,11 +51,10 @@ let ImageMainLectureService = class ImageMainLectureService {
         const result = this.upload(req, res, async function (error) {
             if (error) {
                 console.log(error);
-                return res.status(404).json(`강의 썸네일 이미지 업로드에 실패했습니다: ${error}`);
+                return res
+                    .status(404)
+                    .json(`강의 썸네일 이미지 업로드에 실패했습니다: ${error}`);
             }
-            await imageMainRepository.save({
-                url: req.files[0].location
-            });
             res.status(201).json(req.files[0].location);
         });
         console.log(result);

@@ -23,23 +23,39 @@ let ReviewController = class ReviewController {
     constructor(reviewService) {
         this.reviewService = reviewService;
     }
+    async fetchAllLecture(req) {
+        return await this.reviewService.fetchAll({ req });
+    }
     async fetchLecture(id) {
         return await this.reviewService.fetch({ id });
     }
-    async createLecture(body, createReviewInput) {
-        console.log(body);
-        return await this.reviewService.create({ createReviewInput });
+    async createLecture(req, createReviewInput) {
+        return await this.reviewService.create({ req, createReviewInput });
     }
-    async updateLecture(updateReviewInput, id) {
-        return await this.reviewService.update({ id, updateReviewInput });
+    async updateLecture(updateReviewInput, id, req) {
+        return await this.reviewService.update({ req, id, updateReviewInput });
     }
     async deleteLecture(id) {
         return await this.reviewService.delete({ id });
     }
 };
 __decorate([
+    (0, common_1.Get)('/'),
+    (0, swagger_1.ApiOperation)({
+        summary: '수강평 조회',
+        description: '수강평 조회 API'
+    }),
+    __param(0, (0, common_1.Req)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], ReviewController.prototype, "fetchAllLecture", null);
+__decorate([
     (0, common_1.Get)('/:id'),
-    (0, swagger_1.ApiOperation)({ summary: '수강평 단일 조회', description: '수강평 단일 조회 API' }),
+    (0, swagger_1.ApiOperation)({
+        summary: '수강평 조회',
+        description: '수강평 조회 API'
+    }),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -48,7 +64,7 @@ __decorate([
 __decorate([
     (0, common_1.Post)('/'),
     (0, swagger_1.ApiOperation)({ summary: '수강평 생성', description: '수강평 생성 API' }),
-    __param(0, (0, common_1.Body)()),
+    __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, create_review_dto_1.CreateReviewInput]),
@@ -56,11 +72,15 @@ __decorate([
 ], ReviewController.prototype, "createLecture", null);
 __decorate([
     (0, common_1.Patch)('/:id'),
-    (0, swagger_1.ApiOperation)({ summary: '수강평 업데이트', description: '수강평 업데이트 API' }),
+    (0, swagger_1.ApiOperation)({
+        summary: '수강평 업데이트',
+        description: '수강평 업데이트 API'
+    }),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Param)('id')),
+    __param(2, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [update_review_dto_1.UpdateReviewInput, String]),
+    __metadata("design:paramtypes", [update_review_dto_1.UpdateReviewInput, String, Object]),
     __metadata("design:returntype", Promise)
 ], ReviewController.prototype, "updateLecture", null);
 __decorate([
@@ -75,7 +95,7 @@ ReviewController = __decorate([
     (0, common_1.Controller)('review'),
     (0, swagger_1.ApiTags)('수강평 API'),
     (0, swagger_1.ApiBearerAuth)(),
-    (0, common_1.UseGuards)((0, passport_1.AuthGuard)("access")),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('access')),
     __metadata("design:paramtypes", [review_service_1.ReviewService])
 ], ReviewController);
 exports.ReviewController = ReviewController;

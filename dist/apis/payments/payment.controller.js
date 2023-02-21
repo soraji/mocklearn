@@ -22,18 +22,23 @@ let PaymentController = class PaymentController {
         this.paymentService = paymentService;
         this.iamPortService = iamPortService;
     }
-    async createPayment(impUid, amount, request) {
+    async createPayment(impUid, amount, body) {
         const token = await this.iamPortService.fetchToken(impUid);
-        const paymentData = await this.iamPortService.fetchPaymentData({ impUid, token, amount });
+        const paymentData = await this.iamPortService.fetchPaymentData({
+            impUid,
+            token,
+            amount
+        });
         await this.iamPortService.checkDuplicate({ impUid });
-        const user = request.user;
+        const user = body.user;
         return this.paymentService.create({ impUid, amount, user, paymentData });
     }
 };
 __decorate([
+    (0, common_1.Post)('/'),
     __param(0, (0, common_1.Param)('impUid')),
     __param(1, (0, common_1.Param)('amount')),
-    __param(2, (0, common_1.Req)()),
+    __param(2, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String, Number, Object]),
     __metadata("design:returntype", Promise)

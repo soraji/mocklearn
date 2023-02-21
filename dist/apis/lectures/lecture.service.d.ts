@@ -1,21 +1,31 @@
-import { Repository } from "typeorm";
-import { LectureCategory } from "../categories/entities/category.entity";
-import { Lecture } from "./entities/lecture.entity";
+import { Repository } from 'typeorm';
+import { LectureCategory } from '../categories/entities/category.entity';
+import { ImageDetailLecture } from '../imageDetailLecture/entities/imageDetailLecture.entity';
+import { ImageMainLecture } from '../imageMainLecture/entities/imageMainLecture.entity';
+import { LectureDetail } from '../lectureDetails/entities/lectureDetail.entity';
+import { Lecture } from './entities/lecture.entity';
 export declare class LectureService {
     private readonly lectureRepository;
+    private readonly imageMainLecture;
     private readonly lectureCategoriesRepository;
-    constructor(lectureRepository: Repository<Lecture>, lectureCategoriesRepository: Repository<LectureCategory>);
-    fetchAll(): Promise<Lecture[]>;
+    private readonly lectureDetailRepository;
+    private readonly imageDetailRepository;
+    constructor(lectureRepository: Repository<Lecture>, imageMainLecture: Repository<ImageMainLecture>, lectureCategoriesRepository: Repository<LectureCategory>, lectureDetailRepository: Repository<LectureDetail>, imageDetailRepository: Repository<ImageDetailLecture>);
+    fetchAll({ page }: {
+        page: any;
+    }): Promise<Lecture[]>;
     fetch({ id }: {
         id: any;
     }): Promise<Lecture>;
-    create({ createLectureInput }: {
+    create({ req, createLectureInput }: {
+        req: any;
         createLectureInput: any;
     }): Promise<any>;
-    update({ id, updateLectureInput }: {
+    update({ req, id, updateLectureInput }: {
+        req: any;
         id: any;
         updateLectureInput: any;
-    }): Promise<any>;
+    }): Promise<Lecture>;
     delete({ id }: {
         id: any;
     }): Promise<import("typeorm").DeleteResult>;

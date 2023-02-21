@@ -23,16 +23,18 @@ let IamPortService = class IamPortService {
         this.paymentsRepository = paymentsRepository;
     }
     async checkDuplicate({ impUid }) {
-        const result = await this.paymentsRepository.findOne({ where: { impUid: impUid } });
+        const result = await this.paymentsRepository.findOne({
+            where: { impUid: impUid }
+        });
         if (result)
             throw new common_1.ConflictException('이미 결제가 완료되었습니다');
     }
     async fetchToken(impUid) {
         try {
             const getToken = await (0, axios_1.default)({
-                url: "https://api.iamport.kr/users/getToken",
-                method: "post",
-                headers: { "Content-Type": "application/json" },
+                url: 'https://api.iamport.kr/users/getToken',
+                method: 'post',
+                headers: { 'Content-Type': 'application/json' },
                 data: {
                     imp_key: process.env.IAMPORT_KEY,
                     imp_secret: process.env.IAMPORT_SECRET
@@ -51,10 +53,10 @@ let IamPortService = class IamPortService {
         try {
             const getPaymentData = await (0, axios_1.default)({
                 url: `https://api.iamport.kr/payments/${imp_uid}`,
-                method: "get",
+                method: 'get',
                 headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": token
+                    'Content-Type': 'application/json',
+                    Authorization: token
                 }
             });
             if (getPaymentData.data.response.status !== 'paid')

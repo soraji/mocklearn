@@ -35,22 +35,27 @@ let ImageMainLectureController = class ImageMainLectureController {
 __decorate([
     (0, swagger_1.ApiBearerAuth)(),
     (0, common_1.Post)(),
-    (0, swagger_1.ApiOperation)({ summary: '강의 썸네일 이미지 업로드', description: '강의 썸네일 이미지 업로드 API' }),
-    (0, swagger_1.ApiCreatedResponse)({ description: '이미지 등록이 완료되면 이미지 url을 보여줍니다' }),
+    (0, swagger_1.ApiOperation)({
+        summary: '강의 썸네일 이미지 업로드',
+        description: '강의 썸네일 이미지 업로드 API'
+    }),
+    (0, swagger_1.ApiCreatedResponse)({
+        description: '이미지 등록이 완료되면 이미지 url을 보여줍니다'
+    }),
     (0, swagger_1.ApiBody)({
         required: true,
-        type: "multipart/form-data",
+        type: 'multipart/form-data',
         schema: {
-            type: "object",
+            type: 'object',
             properties: {
                 file: {
-                    type: "string",
-                    format: "binary",
-                },
-            },
-        },
+                    type: 'string',
+                    format: 'binary'
+                }
+            }
+        }
     }),
-    (0, swagger_1.ApiConsumes)("multipart/form-data"),
+    (0, swagger_1.ApiConsumes)('multipart/form-data'),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
@@ -60,7 +65,7 @@ __decorate([
 ImageMainLectureController = __decorate([
     (0, common_1.Controller)('imageMainLecture'),
     (0, swagger_1.ApiTags)('강의 썸네일 이미지 업로드 API'),
-    (0, common_1.UseGuards)((0, passport_1.AuthGuard)("teacher")),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('teacher')),
     __metadata("design:paramtypes", [imageMainLecture_service_1.ImageMainLectureService])
 ], ImageMainLectureController);
 exports.ImageMainLectureController = ImageMainLectureController;

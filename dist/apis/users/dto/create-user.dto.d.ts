@@ -5,4 +5,5 @@ export declare class CreateUserInput {
     phone: string;
     password: string;
     role: USER_ENUM;
+    imageUser: string;
 }

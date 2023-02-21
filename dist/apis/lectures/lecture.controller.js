@@ -23,17 +23,17 @@ let LectureController = class LectureController {
     constructor(lectureService) {
         this.lectureService = lectureService;
     }
-    async fetchAllLecture() {
-        return await this.lectureService.fetchAll();
+    async fetchAllLecture(page) {
+        return await this.lectureService.fetchAll({ page });
     }
     async fetchLecture(id) {
         return await this.lectureService.fetch({ id });
     }
-    async createLecture(createLectureInput) {
-        return await this.lectureService.create({ createLectureInput });
+    async createLecture(req, createLectureInput) {
+        return await this.lectureService.create({ req, createLectureInput });
     }
-    async updateLecture(updateLectureInput, id) {
-        return await this.lectureService.update({ id, updateLectureInput });
+    async updateLecture(updateLectureInput, id, req) {
+        return await this.lectureService.update({ req, id, updateLectureInput });
     }
     async deleteLecture(id) {
         return await this.lectureService.delete({ id });
@@ -41,14 +41,21 @@ let LectureController = class LectureController {
 };
 __decorate([
     (0, common_1.Get)('/'),
-    (0, swagger_1.ApiOperation)({ summary: '강의 전체 조회', description: '강의 전체 조회 API' }),
+    (0, swagger_1.ApiOperation)({
+        summary: '강의 전체 조회',
+        description: '강의 전체 조회 API'
+    }),
+    __param(0, (0, common_1.Param)('page')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
+    __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], LectureController.prototype, "fetchAllLecture", null);
 __decorate([
     (0, common_1.Get)('/:id'),
-    (0, swagger_1.ApiOperation)({ summary: '강의 단일 조회', description: '강의 단일 조회 API' }),
+    (0, swagger_1.ApiOperation)({
+        summary: '강의 단일 조회',
+        description: '강의 단일 조회 API'
+    }),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -57,28 +64,30 @@ __decorate([
 __decorate([
     (0, common_1.Post)('/'),
     (0, swagger_1.ApiBearerAuth)(),
-    (0, common_1.UseGuards)((0, passport_1.AuthGuard)("teacher")),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('teacher')),
     (0, swagger_1.ApiOperation)({ summary: '강의 생성', description: '강의 생성 API' }),
-    __param(0, (0, common_1.Body)()),
+    __param(0, (0, common_1.Req)()),
+    __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_lecture_dto_1.CreateLectureInput]),
+    __metadata("design:paramtypes", [Object, create_lecture_dto_1.CreateLectureInput]),
     __metadata("design:returntype", Promise)
 ], LectureController.prototype, "createLecture", null);
 __decorate([
     (0, common_1.Patch)('/:id'),
     (0, swagger_1.ApiBearerAuth)(),
-    (0, common_1.UseGuards)((0, passport_1.AuthGuard)("teacher")),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('teacher')),
     (0, swagger_1.ApiOperation)({ summary: '강의 업데이트', description: '강의 업데이트 API' }),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Param)('id')),
+    __param(2, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [update_lecture_dto_1.UpdateLectureInput, String]),
+    __metadata("design:paramtypes", [update_lecture_dto_1.UpdateLectureInput, String, Object]),
     __metadata("design:returntype", Promise)
 ], LectureController.prototype, "updateLecture", null);
 __decorate([
     (0, common_1.Delete)('/:id'),
     (0, swagger_1.ApiBearerAuth)(),
-    (0, common_1.UseGuards)((0, passport_1.AuthGuard)("teacher")),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('teacher')),
     (0, swagger_1.ApiOperation)({ summary: '강의 삭제', description: '강의 삭제 API' }),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
