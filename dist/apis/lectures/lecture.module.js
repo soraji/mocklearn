@@ -14,6 +14,7 @@ const curriculum_entity_1 = require("../curriculum/entities/curriculum.entity");
 const imageDetailLecture_entity_1 = require("../imageDetailLecture/entities/imageDetailLecture.entity");
 const imageMainLecture_entity_1 = require("../imageMainLecture/entities/imageMainLecture.entity");
 const lectureDetail_entity_1 = require("../lectureDetails/entities/lectureDetail.entity");
+const lectureTag_entity_1 = require("../lectureTags/entities/lectureTag.entity");
 const review_entity_1 = require("../review/entities/review.entity");
 const lecture_entity_1 = require("./entities/lecture.entity");
 const lecture_controller_1 = require("./lecture.controller");
@@ -30,7 +31,8 @@ LecturesModule = __decorate([
                 lectureDetail_entity_1.LectureDetail,
                 imageDetailLecture_entity_1.ImageDetailLecture,
                 review_entity_1.Review,
-                curriculum_entity_1.Curriculum
+                curriculum_entity_1.Curriculum,
+                lectureTag_entity_1.LectureTag
             ])
         ],
         providers: [lecture_service_1.LectureService],

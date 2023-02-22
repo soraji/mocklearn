@@ -76,19 +76,29 @@ let ReviewService = class ReviewService {
         });
         return result;
     }
-    async update({ req, id, updateReviewInput }) {
-        const { lectureId } = updateReviewInput, review = __rest(updateReviewInput, ["lectureId"]);
+    async update({ req, review, updateReviewInput }) {
+        const { lectureId } = updateReviewInput, rest = __rest(updateReviewInput, ["lectureId"]);
         const userCheck = await this.reviewRepository.findOne({
             user: { id: req.user.id }
         });
         if (!userCheck)
             throw new common_1.UnprocessableEntityException('작성하신 수강평의 정보와 사용자 정보가 일치하지 않습니다');
-        const result = await this.reviewRepository.save(Object.assign({ id: id, lecture: { id: lectureId } }, review));
+        const result = await this.reviewRepository.save(Object.assign({ id: review.id, lecture: { id: lectureId } }, rest));
         return result;
     }
-    async delete({ id }) {
+    async delete({ review }) {
+        await this.lectureRepository
+            .createQueryBuilder()
+            .update()
+            .set({
+            reviewCount: () => 'reviewCount - 1'
+        })
+            .where('id =:id', {
+            id: review.lecture.id
+        })
+            .execute();
         return await this.reviewRepository.delete({
-            id: id
+            id: review.id
         });
     }
 };

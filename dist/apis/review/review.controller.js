@@ -33,10 +33,12 @@ let ReviewController = class ReviewController {
         return await this.reviewService.create({ req, createReviewInput });
     }
     async updateLecture(updateReviewInput, id, req) {
-        return await this.reviewService.update({ req, id, updateReviewInput });
+        const review = await this.reviewService.fetch({ id });
+        return await this.reviewService.update({ req, review, updateReviewInput });
     }
     async deleteLecture(id) {
-        return await this.reviewService.delete({ id });
+        const review = await this.reviewService.fetch({ id });
+        return await this.reviewService.delete({ review });
     }
 };
 __decorate([

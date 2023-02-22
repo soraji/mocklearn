@@ -17,12 +17,12 @@ export declare class ReviewService {
         req: any;
         createReviewInput: any;
     }): Promise<any>;
-    update({ req, id, updateReviewInput }: {
+    update({ req, review, updateReviewInput }: {
         req: any;
-        id: any;
+        review: any;
         updateReviewInput: any;
     }): Promise<any>;
-    delete({ id }: {
-        id: any;
+    delete({ review }: {
+        review: any;
     }): Promise<import("typeorm").DeleteResult>;
 }

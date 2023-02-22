@@ -31,14 +31,16 @@ const curriculum_entity_1 = require("../curriculum/entities/curriculum.entity");
 const imageDetailLecture_entity_1 = require("../imageDetailLecture/entities/imageDetailLecture.entity");
 const imageMainLecture_entity_1 = require("../imageMainLecture/entities/imageMainLecture.entity");
 const lectureDetail_entity_1 = require("../lectureDetails/entities/lectureDetail.entity");
+const lectureTag_entity_1 = require("../lectureTags/entities/lectureTag.entity");
 const review_entity_1 = require("../review/entities/review.entity");
 const lecture_entity_1 = require("./entities/lecture.entity");
 let LectureService = class LectureService {
-    constructor(lectureRepository, imageMainLecture, reviewRepository, curriculumRepository, lectureDetailRepository, imageDetailRepository) {
+    constructor(lectureRepository, imageMainLecture, reviewRepository, curriculumRepository, lectureTagRepository, lectureDetailRepository, imageDetailRepository) {
         this.lectureRepository = lectureRepository;
         this.imageMainLecture = imageMainLecture;
         this.reviewRepository = reviewRepository;
         this.curriculumRepository = curriculumRepository;
+        this.lectureTagRepository = lectureTagRepository;
         this.lectureDetailRepository = lectureDetailRepository;
         this.imageDetailRepository = imageDetailRepository;
     }
@@ -49,7 +51,7 @@ let LectureService = class LectureService {
             order: {
                 price: 'ASC'
             },
-            relations: ['lectureCategory', 'imageMainLecture']
+            relations: ['lectureCategory', 'imageMainLecture', 'lectureTags']
         });
         return result;
     }
@@ -61,13 +63,14 @@ let LectureService = class LectureService {
                 'lectureDetail',
                 'imageMainLecture',
                 'imageDetailLecture',
-                'curriculum'
+                'curriculum',
+                'lectureTags'
             ]
         });
         return result;
     }
     async create({ req, createLectureInput }) {
-        const { imageMainUrl, lectureCategoryId, many, expire, description, level, imageDetailLecture, section, content } = createLectureInput, lecture = __rest(createLectureInput, ["imageMainUrl", "lectureCategoryId", "many", "expire", "description", "level", "imageDetailLecture", "section", "content"]);
+        const { imageMainUrl, lectureCategoryId, lectureTags, many, expire, description, level, imageDetailLecture, section, content } = createLectureInput, lecture = __rest(createLectureInput, ["imageMainUrl", "lectureCategoryId", "lectureTags", "many", "expire", "description", "level", "imageDetailLecture", "section", "content"]);
         if (req.user.role !== 'TEACHER')
             throw new common_1.UnprocessableEntityException('강의 등록 권한이 없습니다');
         if (!lectureCategoryId)
@@ -77,6 +80,22 @@ let LectureService = class LectureService {
         const img = await this.imageMainLecture.save({
             url: imageMainUrl
         });
+        const temp = [];
+        for (let i = 0; i < lectureTags.length; i++) {
+            const tagname = lectureTags[i].replace('#', '');
+            const prevTag = await this.lectureTagRepository.findOne({
+                where: { tag: tagname }
+            });
+            if (prevTag) {
+                temp.push(prevTag);
+            }
+            else {
+                const newTag = await this.lectureTagRepository.save({
+                    tag: tagname
+                });
+                temp.push(newTag);
+            }
+        }
         const detail = await this.lectureDetailRepository.save({
             many,
             expire,
@@ -87,7 +106,7 @@ let LectureService = class LectureService {
             section,
             content
         });
-        const result = await this.lectureRepository.save(Object.assign(Object.assign({}, lecture), { imageMainLecture: img, lectureCategory: { id: lectureCategoryId }, lectureDetail: { id: detail.id }, curriculum: { id: curr.id } }));
+        const result = await this.lectureRepository.save(Object.assign(Object.assign({}, lecture), { lectureTags: temp, imageMainLecture: img, lectureCategory: { id: lectureCategoryId }, lectureDetail: { id: detail.id }, curriculum: { id: curr.id } }));
         if (imageDetailLecture) {
             await Promise.all(imageDetailLecture.map((el, i) => {
                 return new Promise(async (resolve, reject) => {
@@ -187,9 +206,11 @@ LectureService = __decorate([
     __param(1, (0, typeorm_1.InjectRepository)(imageMainLecture_entity_1.ImageMainLecture)),
     __param(2, (0, typeorm_1.InjectRepository)(review_entity_1.Review)),
     __param(3, (0, typeorm_1.InjectRepository)(curriculum_entity_1.Curriculum)),
-    __param(4, (0, typeorm_1.InjectRepository)(lectureDetail_entity_1.LectureDetail)),
-    __param(5, (0, typeorm_1.InjectRepository)(imageDetailLecture_entity_1.ImageDetailLecture)),
+    __param(4, (0, typeorm_1.InjectRepository)(lectureTag_entity_1.LectureTag)),
+    __param(5, (0, typeorm_1.InjectRepository)(lectureDetail_entity_1.LectureDetail)),
+    __param(6, (0, typeorm_1.InjectRepository)(imageDetailLecture_entity_1.ImageDetailLecture)),
     __metadata("design:paramtypes", [typeorm_2.Repository,
+        typeorm_2.Repository,
         typeorm_2.Repository,
         typeorm_2.Repository,
         typeorm_2.Repository,

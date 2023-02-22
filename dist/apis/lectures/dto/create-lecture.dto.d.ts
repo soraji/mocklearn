@@ -13,4 +13,5 @@ export declare class CreateLectureInput {
     imageDetailLecture: string[];
     section: string[];
     content: string[];
+    lectureTags: string[];
 }

@@ -15,6 +15,7 @@ const curriculum_entity_1 = require("../../curriculum/entities/curriculum.entity
 const imageDetailLecture_entity_1 = require("../../imageDetailLecture/entities/imageDetailLecture.entity");
 const imageMainLecture_entity_1 = require("../../imageMainLecture/entities/imageMainLecture.entity");
 const lectureDetail_entity_1 = require("../../lectureDetails/entities/lectureDetail.entity");
+const lectureTag_entity_1 = require("../../lectureTags/entities/lectureTag.entity");
 const typeorm_1 = require("typeorm");
 let Lecture = class Lecture {
 };
@@ -65,6 +66,11 @@ __decorate([
     (0, typeorm_1.OneToMany)(() => imageDetailLecture_entity_1.ImageDetailLecture, imageDetailLecture => imageDetailLecture.lecture),
     __metadata("design:type", Array)
 ], Lecture.prototype, "imageDetailLecture", void 0);
+__decorate([
+    (0, typeorm_1.JoinTable)(),
+    (0, typeorm_1.ManyToMany)(() => lectureTag_entity_1.LectureTag, lectureTags => lectureTags.lectures),
+    __metadata("design:type", Array)
+], Lecture.prototype, "lectureTags", void 0);
 Lecture = __decorate([
     (0, typeorm_1.Entity)()
 ], Lecture);
