@@ -27,4 +27,6 @@ export class CreateLectureInput {
   section: string[];
 
   content: string[];
+
+  lectureTags: string[];
 }

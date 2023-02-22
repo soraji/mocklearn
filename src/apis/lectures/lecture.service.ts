@@ -6,6 +6,7 @@ import { Curriculum } from '../curriculum/entities/curriculum.entity';
 import { ImageDetailLecture } from '../imageDetailLecture/entities/imageDetailLecture.entity';
 import { ImageMainLecture } from '../imageMainLecture/entities/imageMainLecture.entity';
 import { LectureDetail } from '../lectureDetails/entities/lectureDetail.entity';
+import { LectureTag } from '../lectureTags/entities/lectureTag.entity';
 import { Review } from '../review/entities/review.entity';
 import { Lecture } from './entities/lecture.entity';
 
@@ -23,6 +24,9 @@ export class LectureService {
     @InjectRepository(Curriculum)
     private readonly curriculumRepository: Repository<Curriculum>,
 
+    @InjectRepository(LectureTag)
+    private readonly lectureTagRepository: Repository<LectureTag>,
+
     @InjectRepository(LectureDetail)
     private readonly lectureDetailRepository: Repository<LectureDetail>,
 
@@ -38,7 +42,7 @@ export class LectureService {
       order: {
         price: 'ASC'
       },
-      relations: ['lectureCategory', 'imageMainLecture']
+      relations: ['lectureCategory', 'imageMainLecture', 'lectureTags']
     });
 
     return result;
@@ -53,7 +57,8 @@ export class LectureService {
         'lectureDetail',
         'imageMainLecture',
         'imageDetailLecture',
-        'curriculum'
+        'curriculum',
+        'lectureTags'
       ]
     });
 
@@ -65,6 +70,7 @@ export class LectureService {
     const {
       imageMainUrl,
       lectureCategoryId,
+      lectureTags,
       many,
       expire,
       description,
@@ -94,6 +100,25 @@ export class LectureService {
       url: imageMainUrl
     });
 
+    /* 태그 등록 */
+    const temp = [];
+    for (let i = 0; i < lectureTags.length; i++) {
+      const tagname = lectureTags[i].replace('#', '');
+
+      const prevTag = await this.lectureTagRepository.findOne({
+        where: { tag: tagname }
+      });
+
+      if (prevTag) {
+        temp.push(prevTag);
+      } else {
+        const newTag = await this.lectureTagRepository.save({
+          tag: tagname
+        });
+        temp.push(newTag);
+      }
+    }
+
     /* 강의상세 테이블에도 자동으로 저장 */
     const detail = await this.lectureDetailRepository.save({
       many,
@@ -111,6 +136,7 @@ export class LectureService {
     /* 이미지와 카테고리를 합쳐 강의 등록 */
     const result = await this.lectureRepository.save({
       ...lecture,
+      lectureTags: temp,
       imageMainLecture: img,
       lectureCategory: { id: lectureCategoryId },
       lectureDetail: { id: detail.id },
