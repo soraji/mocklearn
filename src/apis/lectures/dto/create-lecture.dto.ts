@@ -23,4 +23,8 @@ export class CreateLectureInput {
   level: LEVEL_ENUM;
 
   imageDetailLecture: string[];
+
+  section: string[];
+
+  content: string[];
 }

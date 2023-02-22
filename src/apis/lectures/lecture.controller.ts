@@ -73,7 +73,13 @@ export class LectureController {
     @Param('id') id: string,
     @Req() req //
   ) {
-    return await this.lectureService.update({ req, id, updateLectureInput });
+    const lecture = await this.lectureService.fetch({ id });
+
+    return await this.lectureService.update({
+      req,
+      lecture,
+      updateLectureInput
+    });
   }
 
   /****************************** 강의 삭제 ******************************/
@@ -82,6 +88,8 @@ export class LectureController {
   @UseGuards(AuthGuard('teacher'))
   @ApiOperation({ summary: '강의 삭제', description: '강의 삭제 API' })
   async deleteLecture(@Param('id') id: string) {
-    return await this.lectureService.delete({ id });
+    const lecture = await this.lectureService.fetch({ id });
+
+    return await this.lectureService.delete({ lecture });
   }
 }
