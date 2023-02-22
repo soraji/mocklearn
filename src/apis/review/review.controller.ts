@@ -72,13 +72,17 @@ export class ReviewController {
     @Param('id') id: string,
     @Req() req
   ) {
-    return await this.reviewService.update({ req, id, updateReviewInput });
+    const review = await this.reviewService.fetch({ id });
+
+    return await this.reviewService.update({ req, review, updateReviewInput });
   }
 
   /****************************** 수강평 삭제 ******************************/
   @Delete('/:id')
   @ApiOperation({ summary: '수강평 삭제', description: '수강평 삭제 API' })
   async deleteLecture(@Param('id') id: string) {
-    return await this.reviewService.delete({ id });
+    const review = await this.reviewService.fetch({ id });
+
+    return await this.reviewService.delete({ review });
   }
 }

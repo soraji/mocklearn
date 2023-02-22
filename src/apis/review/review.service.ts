@@ -88,8 +88,8 @@ export class ReviewService {
   }
 
   /****************************** 수강평 수정 ******************************/
-  async update({ req, id, updateReviewInput }) {
-    const { lectureId, ...review } = updateReviewInput;
+  async update({ req, review, updateReviewInput }) {
+    const { lectureId, ...rest } = updateReviewInput;
 
     //작성한 유저가 맞는지 확인
     const userCheck = await this.reviewRepository.findOne({
@@ -102,18 +102,29 @@ export class ReviewService {
       );
 
     const result = await this.reviewRepository.save({
-      id: id,
+      id: review.id,
       lecture: { id: lectureId },
-      ...review
+      ...rest
     });
 
     return result;
   }
 
   /****************************** 수강평 삭제 ******************************/
-  async delete({ id }) {
+  async delete({ review }) {
+    await this.lectureRepository
+      .createQueryBuilder()
+      .update()
+      .set({
+        reviewCount: () => 'reviewCount - 1'
+      })
+      .where('id =:id', {
+        id: review.lecture.id
+      })
+      .execute();
+
     return await this.reviewRepository.delete({
-      id: id
+      id: review.id
     });
   }
 }
