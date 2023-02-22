@@ -7,7 +7,7 @@
 
 # Swagger
 
-http://ec2-13-125-216-182.ap-northeast-2.compute.amazonaws.com:3000/api-docs
+http://mocklearn.shop:3000/api-docs
 
 <br>
 
