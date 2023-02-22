@@ -30,8 +30,4 @@ export class LectureDetail {
 
   @Column('longtext')
   description: string;
-
-  @JoinColumn()
-  @OneToOne(() => Lecture)
-  lecture: Lecture;
 }

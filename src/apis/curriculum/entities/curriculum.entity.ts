@@ -1,4 +1,3 @@
-import { LectureCategory } from 'src/apis/categories/entities/category.entity';
 import { Lecture } from 'src/apis/lectures/entities/lecture.entity';
 import {
   Column,
@@ -8,9 +7,8 @@ import {
   ManyToMany,
   PrimaryGeneratedColumn,
   JoinColumn,
-  OneToOne,
+  OneToOne
 } from 'typeorm';
-
 
 @Entity()
 export class Curriculum {
@@ -22,5 +20,4 @@ export class Curriculum {
 
   @Column('simple-array')
   content: string[];
-
 }
