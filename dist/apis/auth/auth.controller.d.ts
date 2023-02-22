@@ -1,5 +1,6 @@
 import { UserService } from '../users/user.service';
 import { AuthService } from './auth.service';
+import { Request, Response } from 'express';
 interface IOAuthUser {
     user: {
         name: string;

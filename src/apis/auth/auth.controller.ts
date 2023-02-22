@@ -25,6 +25,7 @@ import { UserService } from '../users/user.service';
 import { AuthService } from './auth.service';
 import * as bcrypt from 'bcrypt';
 import { AuthGuard } from '@nestjs/passport';
+import { Request, Response } from 'express';
 
 interface IOAuthUser {
   user: {
