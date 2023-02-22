@@ -39,13 +39,13 @@ let UserService = class UserService {
     }
     async fetch({ id }) {
         const result = await this.userRepository.findOne({
-            where: { id: id },
+            where: { id: id }
         });
         return result;
     }
     async findUserByEmail({ email }) {
         const result = await this.userRepository.findOne({
-            where: { email: email },
+            where: { email: email }
         });
         return result;
     }

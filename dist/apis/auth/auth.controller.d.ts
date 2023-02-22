@@ -1,4 +1,3 @@
-import { Request, Response } from 'express';
 import { UserService } from '../users/user.service';
 import { AuthService } from './auth.service';
 interface IOAuthUser {
@@ -12,8 +11,8 @@ export declare class AuthController {
     private readonly authService;
     private readonly userService;
     constructor(authService: AuthService, userService: UserService);
-    login(body: any, res: Response): Promise<string>;
-    restoreAccessToken(req: Request, res: Response): string;
+    login(body: any, req: any, res: any): Promise<string>;
+    restoreAccessToken(req: any): string;
     loginGoogle(req: Request & IOAuthUser, res: Response): Promise<void>;
     loginKakao(req: Request & IOAuthUser, res: Response): Promise<void>;
     loginNaver(req: Request & IOAuthUser, res: Response): Promise<void>;

@@ -24,7 +24,7 @@ let AuthController = class AuthController {
         this.authService = authService;
         this.userService = userService;
     }
-    async login(body, res) {
+    async login(body, req, res) {
         const email = body.email;
         const password = body.password;
         const user = await this.userService.findUserByEmail({ email });
@@ -33,11 +33,11 @@ let AuthController = class AuthController {
         const isAuth = await bcrypt.compare(password, user.password);
         if (!isAuth)
             throw new common_1.UnprocessableEntityException('암호가 틀렸습니다.');
-        this.authService.setRefreshToken({ user, res });
+        this.authService.setRefreshToken({ user, res, req });
         return this.authService.getAccessToken({ user });
     }
-    restoreAccessToken(req, res) {
-        return '';
+    restoreAccessToken(req) {
+        return this.authService.getAccessToken({ user: req.user });
     }
     async loginGoogle(req, res) {
         this.authService.OAuthLogin({ req, res });
@@ -51,45 +51,60 @@ let AuthController = class AuthController {
 };
 __decorate([
     (0, common_1.Post)('/login'),
+    (0, swagger_1.ApiBody)({
+        schema: {
+            properties: {
+                email: { type: 'string', example: 'user@gmail.com' },
+                password: { type: 'string', example: '1234' }
+            }
+        }
+    }),
+    (0, swagger_1.ApiOperation)({ summary: '로그인' }),
     __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Res)({ passthrough: true })),
+    __param(1, (0, common_1.Req)()),
+    __param(2, (0, common_1.Res)({ passthrough: true })),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:paramtypes", [Object, Object, Object]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "login", null);
 __decorate([
+    (0, swagger_1.ApiBearerAuth)(),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('access')),
+    (0, swagger_1.ApiOperation)({ summary: 'accessToken 복구' }),
     (0, common_1.Post)('/restoreToken'),
     __param(0, (0, common_1.Req)()),
-    __param(1, (0, common_1.Res)({ passthrough: true })),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", String)
 ], AuthController.prototype, "restoreAccessToken", null);
 __decorate([
     (0, common_1.Get)('/login/google'),
     (0, common_1.UseGuards)((0, passport_1.AuthGuard)('google')),
+    (0, swagger_1.ApiOperation)({ summary: '구글 소셜 로그인' }),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:paramtypes", [Object, Response]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "loginGoogle", null);
 __decorate([
     (0, common_1.Get)('/login/kakao'),
     (0, common_1.UseGuards)((0, passport_1.AuthGuard)('kakao')),
+    (0, swagger_1.ApiOperation)({ summary: '카카오 소셜 로그인' }),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:paramtypes", [Object, Response]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "loginKakao", null);
 __decorate([
     (0, common_1.Get)('/login/naver'),
     (0, common_1.UseGuards)((0, passport_1.AuthGuard)('naver')),
+    (0, swagger_1.ApiOperation)({ summary: '네이버 소셜 로그인' }),
     __param(0, (0, common_1.Req)()),
     __param(1, (0, common_1.Res)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object, Object]),
+    __metadata("design:paramtypes", [Object, Response]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "loginNaver", null);
 AuthController = __decorate([
