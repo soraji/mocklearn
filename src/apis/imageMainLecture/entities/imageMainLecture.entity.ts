@@ -4,15 +4,14 @@ import {
   Entity,
   JoinColumn,
   OneToOne,
-  PrimaryGeneratedColumn,
+  PrimaryGeneratedColumn
 } from 'typeorm';
-
 
 @Entity()
 export class ImageMainLecture {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({default:""})
+  @Column({ default: '' })
   url: string;
 }

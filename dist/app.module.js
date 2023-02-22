@@ -19,7 +19,6 @@ const review_module_1 = require("./apis/review/review.module");
 const imageMainLecture_module_1 = require("./apis/imageMainLecture/imageMainLecture.module");
 const imageUser_module_1 = require("./apis/imageUser/imageUser.module");
 const imageDetailLecture_module_1 = require("./apis/imageDetailLecture/imageDetailLecture.module");
-const curriculum_module_1 = require("./apis/curriculum/curriculum.module");
 const auth_module_1 = require("./apis/auth/auth.module");
 const jwt_access_strategy_1 = require("./common/auth/jwt-access.strategy");
 const jwt_refresh_strategy_1 = require("./common/auth/jwt-refresh.strategy");
@@ -40,7 +39,6 @@ AppModule = __decorate([
             imageMainLecture_module_1.ImageMainLectureModule,
             imageUser_module_1.ImageUserModule,
             imageDetailLecture_module_1.ImageDetailLectureModule,
-            curriculum_module_1.CurriculumsModule,
             auth_module_1.AuthModule,
             typeorm_1.TypeOrmModule.forRoot({
                 type: process.env.DATABASE_TYPE,
