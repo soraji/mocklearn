@@ -33,22 +33,30 @@ let CurriculumController = class CurriculumController {
         return await this.curriculumService.create({ createCurriculumInput });
     }
     async updateLecture(updateCurriculumInput, id) {
-        return await this.curriculumService.update({ id, updateCurriculumInput });
+        const curr = await this.curriculumService.fetch({ id });
+        return await this.curriculumService.update({ curr, updateCurriculumInput });
     }
     async deleteLecture(id) {
-        return await this.curriculumService.delete({ id });
+        const curr = await this.curriculumService.fetch({ id });
+        return await this.curriculumService.delete({ curr });
     }
 };
 __decorate([
     (0, common_1.Get)('/'),
-    (0, swagger_1.ApiOperation)({ summary: '커리큘럼 전체 조회', description: '커리큘럼 전체 조회 API' }),
+    (0, swagger_1.ApiOperation)({
+        summary: '커리큘럼 전체 조회',
+        description: '커리큘럼 전체 조회 API'
+    }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], CurriculumController.prototype, "fetchAllLecture", null);
 __decorate([
     (0, common_1.Get)('/:id'),
-    (0, swagger_1.ApiOperation)({ summary: '커리큘럼 단일 조회', description: '커리큘럼 단일 조회 API' }),
+    (0, swagger_1.ApiOperation)({
+        summary: '커리큘럼 단일 조회',
+        description: '커리큘럼 단일 조회 API'
+    }),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
@@ -57,7 +65,7 @@ __decorate([
 __decorate([
     (0, common_1.Post)('/'),
     (0, swagger_1.ApiBearerAuth)(),
-    (0, common_1.UseGuards)((0, passport_1.AuthGuard)("teacher")),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('teacher')),
     (0, swagger_1.ApiOperation)({ summary: '커리큘럼 생성', description: '커리큘럼 생성 API' }),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -67,8 +75,11 @@ __decorate([
 __decorate([
     (0, common_1.Patch)('/:id'),
     (0, swagger_1.ApiBearerAuth)(),
-    (0, common_1.UseGuards)((0, passport_1.AuthGuard)("teacher")),
-    (0, swagger_1.ApiOperation)({ summary: '커리큘럼 업데이트', description: '커리큘럼 업데이트 API' }),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('teacher')),
+    (0, swagger_1.ApiOperation)({
+        summary: '커리큘럼 업데이트',
+        description: '커리큘럼 업데이트 API'
+    }),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
@@ -78,7 +89,7 @@ __decorate([
 __decorate([
     (0, common_1.Delete)('/:id'),
     (0, swagger_1.ApiBearerAuth)(),
-    (0, common_1.UseGuards)((0, passport_1.AuthGuard)("teacher")),
+    (0, common_1.UseGuards)((0, passport_1.AuthGuard)('teacher')),
     (0, swagger_1.ApiOperation)({ summary: '커리큘럼 삭제', description: '커리큘럼 삭제 API' }),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),

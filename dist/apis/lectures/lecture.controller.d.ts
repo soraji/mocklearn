@@ -9,5 +9,5 @@ export declare class LectureController {
     fetchLecture(id: string): Promise<Lecture>;
     createLecture(req: any, createLectureInput: CreateLectureInput): Promise<any>;
     updateLecture(updateLectureInput: UpdateLectureInput, id: string, req: any): Promise<Lecture>;
-    deleteLecture(id: string): Promise<import("typeorm").DeleteResult>;
+    deleteLecture(id: string): Promise<void>;
 }

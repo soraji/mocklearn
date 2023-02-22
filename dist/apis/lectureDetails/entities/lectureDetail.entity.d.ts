@@ -1,4 +1,3 @@
-import { Lecture } from 'src/apis/lectures/entities/lecture.entity';
 export declare enum LEVEL_ENUM {
     'BEGINNER' = "BEGINNER",
     'INTERMEDIATE' = "INTERMEDIATE",
@@ -10,5 +9,4 @@ export declare class LectureDetail {
     expire: Date;
     level: string;
     description: string;
-    lecture: Lecture;
 }

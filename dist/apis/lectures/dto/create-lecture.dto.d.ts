@@ -11,4 +11,6 @@ export declare class CreateLectureInput {
     description: string;
     level: LEVEL_ENUM;
     imageDetailLecture: string[];
+    section: string[];
+    content: string[];
 }

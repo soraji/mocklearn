@@ -10,9 +10,11 @@ exports.LecturesModule = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const category_entity_1 = require("../categories/entities/category.entity");
+const curriculum_entity_1 = require("../curriculum/entities/curriculum.entity");
 const imageDetailLecture_entity_1 = require("../imageDetailLecture/entities/imageDetailLecture.entity");
 const imageMainLecture_entity_1 = require("../imageMainLecture/entities/imageMainLecture.entity");
 const lectureDetail_entity_1 = require("../lectureDetails/entities/lectureDetail.entity");
+const review_entity_1 = require("../review/entities/review.entity");
 const lecture_entity_1 = require("./entities/lecture.entity");
 const lecture_controller_1 = require("./lecture.controller");
 const lecture_service_1 = require("./lecture.service");
@@ -26,7 +28,9 @@ LecturesModule = __decorate([
                 category_entity_1.LectureCategory,
                 imageMainLecture_entity_1.ImageMainLecture,
                 lectureDetail_entity_1.LectureDetail,
-                imageDetailLecture_entity_1.ImageDetailLecture
+                imageDetailLecture_entity_1.ImageDetailLecture,
+                review_entity_1.Review,
+                curriculum_entity_1.Curriculum
             ])
         ],
         providers: [lecture_service_1.LectureService],

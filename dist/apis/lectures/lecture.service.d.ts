@@ -1,16 +1,18 @@
 import { Repository } from 'typeorm';
-import { LectureCategory } from '../categories/entities/category.entity';
+import { Curriculum } from '../curriculum/entities/curriculum.entity';
 import { ImageDetailLecture } from '../imageDetailLecture/entities/imageDetailLecture.entity';
 import { ImageMainLecture } from '../imageMainLecture/entities/imageMainLecture.entity';
 import { LectureDetail } from '../lectureDetails/entities/lectureDetail.entity';
+import { Review } from '../review/entities/review.entity';
 import { Lecture } from './entities/lecture.entity';
 export declare class LectureService {
     private readonly lectureRepository;
     private readonly imageMainLecture;
-    private readonly lectureCategoriesRepository;
+    private readonly reviewRepository;
+    private readonly curriculumRepository;
     private readonly lectureDetailRepository;
     private readonly imageDetailRepository;
-    constructor(lectureRepository: Repository<Lecture>, imageMainLecture: Repository<ImageMainLecture>, lectureCategoriesRepository: Repository<LectureCategory>, lectureDetailRepository: Repository<LectureDetail>, imageDetailRepository: Repository<ImageDetailLecture>);
+    constructor(lectureRepository: Repository<Lecture>, imageMainLecture: Repository<ImageMainLecture>, reviewRepository: Repository<Review>, curriculumRepository: Repository<Curriculum>, lectureDetailRepository: Repository<LectureDetail>, imageDetailRepository: Repository<ImageDetailLecture>);
     fetchAll({ page }: {
         page: any;
     }): Promise<Lecture[]>;
@@ -21,12 +23,12 @@ export declare class LectureService {
         req: any;
         createLectureInput: any;
     }): Promise<any>;
-    update({ req, id, updateLectureInput }: {
+    update({ req, lecture, updateLectureInput }: {
         req: any;
-        id: any;
+        lecture: any;
         updateLectureInput: any;
     }): Promise<Lecture>;
-    delete({ id }: {
-        id: any;
-    }): Promise<import("typeorm").DeleteResult>;
+    delete({ lecture }: {
+        lecture: any;
+    }): Promise<void>;
 }

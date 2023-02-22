@@ -21,7 +21,9 @@ let CurriculumService = class CurriculumService {
         this.curriculumRepository = curriculumRepository;
     }
     async fetchAll() {
-        const result = await this.curriculumRepository.find({ relations: ['lectureCategory'] });
+        const result = await this.curriculumRepository.find({
+            relations: ['lectureCategory']
+        });
         return result;
     }
     async fetch({ id }) {
@@ -32,12 +34,13 @@ let CurriculumService = class CurriculumService {
         return result;
     }
     async create({ createCurriculumInput }) {
+        const result = await this.curriculumRepository.save(Object.assign({}, createCurriculumInput));
+        return result;
     }
-    async update({ id, updateCurriculumInput }) {
-    }
-    async delete({ id }) {
+    async update({ curr, updateCurriculumInput }) { }
+    async delete({ curr }) {
         return await this.curriculumRepository.delete({
-            id: id
+            id: curr.id
         });
     }
 };

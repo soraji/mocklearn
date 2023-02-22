@@ -1,5 +1,5 @@
-import { Repository } from "typeorm";
-import { Curriculum } from "./entities/curriculum.entity";
+import { Repository } from 'typeorm';
+import { Curriculum } from './entities/curriculum.entity';
 export declare class CurriculumService {
     private readonly curriculumRepository;
     constructor(curriculumRepository: Repository<Curriculum>);
@@ -9,12 +9,12 @@ export declare class CurriculumService {
     }): Promise<Curriculum>;
     create({ createCurriculumInput }: {
         createCurriculumInput: any;
-    }): Promise<void>;
-    update({ id, updateCurriculumInput }: {
-        id: any;
+    }): Promise<any>;
+    update({ curr, updateCurriculumInput }: {
+        curr: any;
         updateCurriculumInput: any;
     }): Promise<void>;
-    delete({ id }: {
-        id: any;
+    delete({ curr }: {
+        curr: any;
     }): Promise<import("typeorm").DeleteResult>;
 }

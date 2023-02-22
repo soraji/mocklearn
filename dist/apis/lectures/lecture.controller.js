@@ -33,10 +33,16 @@ let LectureController = class LectureController {
         return await this.lectureService.create({ req, createLectureInput });
     }
     async updateLecture(updateLectureInput, id, req) {
-        return await this.lectureService.update({ req, id, updateLectureInput });
+        const lecture = await this.lectureService.fetch({ id });
+        return await this.lectureService.update({
+            req,
+            lecture,
+            updateLectureInput
+        });
     }
     async deleteLecture(id) {
-        return await this.lectureService.delete({ id });
+        const lecture = await this.lectureService.fetch({ id });
+        return await this.lectureService.delete({ lecture });
     }
 };
 __decorate([

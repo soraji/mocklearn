@@ -10,7 +10,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LectureDetail = exports.LEVEL_ENUM = void 0;
-const lecture_entity_1 = require("../../lectures/entities/lecture.entity");
 const typeorm_1 = require("typeorm");
 var LEVEL_ENUM;
 (function (LEVEL_ENUM) {
@@ -40,11 +39,6 @@ __decorate([
     (0, typeorm_1.Column)('longtext'),
     __metadata("design:type", String)
 ], LectureDetail.prototype, "description", void 0);
-__decorate([
-    (0, typeorm_1.JoinColumn)(),
-    (0, typeorm_1.OneToOne)(() => lecture_entity_1.Lecture),
-    __metadata("design:type", lecture_entity_1.Lecture)
-], LectureDetail.prototype, "lecture", void 0);
 LectureDetail = __decorate([
     (0, typeorm_1.Entity)()
 ], LectureDetail);

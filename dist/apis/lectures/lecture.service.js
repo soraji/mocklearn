@@ -27,16 +27,18 @@ exports.LectureService = void 0;
 const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
-const category_entity_1 = require("../categories/entities/category.entity");
+const curriculum_entity_1 = require("../curriculum/entities/curriculum.entity");
 const imageDetailLecture_entity_1 = require("../imageDetailLecture/entities/imageDetailLecture.entity");
 const imageMainLecture_entity_1 = require("../imageMainLecture/entities/imageMainLecture.entity");
 const lectureDetail_entity_1 = require("../lectureDetails/entities/lectureDetail.entity");
+const review_entity_1 = require("../review/entities/review.entity");
 const lecture_entity_1 = require("./entities/lecture.entity");
 let LectureService = class LectureService {
-    constructor(lectureRepository, imageMainLecture, lectureCategoriesRepository, lectureDetailRepository, imageDetailRepository) {
+    constructor(lectureRepository, imageMainLecture, reviewRepository, curriculumRepository, lectureDetailRepository, imageDetailRepository) {
         this.lectureRepository = lectureRepository;
         this.imageMainLecture = imageMainLecture;
-        this.lectureCategoriesRepository = lectureCategoriesRepository;
+        this.reviewRepository = reviewRepository;
+        this.curriculumRepository = curriculumRepository;
         this.lectureDetailRepository = lectureDetailRepository;
         this.imageDetailRepository = imageDetailRepository;
     }
@@ -56,6 +58,7 @@ let LectureService = class LectureService {
             where: { id: id },
             relations: [
                 'lectureCategory',
+                'lectureDetail',
                 'imageMainLecture',
                 'imageDetailLecture',
                 'curriculum'
@@ -64,7 +67,7 @@ let LectureService = class LectureService {
         return result;
     }
     async create({ req, createLectureInput }) {
-        const { imageMainUrl, lectureCategoryId, many, expire, description, level, imageDetailLecture } = createLectureInput, lecture = __rest(createLectureInput, ["imageMainUrl", "lectureCategoryId", "many", "expire", "description", "level", "imageDetailLecture"]);
+        const { imageMainUrl, lectureCategoryId, many, expire, description, level, imageDetailLecture, section, content } = createLectureInput, lecture = __rest(createLectureInput, ["imageMainUrl", "lectureCategoryId", "many", "expire", "description", "level", "imageDetailLecture", "section", "content"]);
         if (req.user.role !== 'TEACHER')
             throw new common_1.UnprocessableEntityException('강의 등록 권한이 없습니다');
         if (!lectureCategoryId)
@@ -74,14 +77,17 @@ let LectureService = class LectureService {
         const img = await this.imageMainLecture.save({
             url: imageMainUrl
         });
-        const result = await this.lectureRepository.save(Object.assign(Object.assign({}, lecture), { imageMainLecture: img, lectureCategory: { id: lectureCategoryId } }));
-        await this.lectureDetailRepository.save({
+        const detail = await this.lectureDetailRepository.save({
             many,
             expire,
             description,
-            level,
-            lecture: { id: result.id }
+            level
         });
+        const curr = await this.curriculumRepository.save({
+            section,
+            content
+        });
+        const result = await this.lectureRepository.save(Object.assign(Object.assign({}, lecture), { imageMainLecture: img, lectureCategory: { id: lectureCategoryId }, lectureDetail: { id: detail.id }, curriculum: { id: curr.id } }));
         if (imageDetailLecture) {
             await Promise.all(imageDetailLecture.map((el, i) => {
                 return new Promise(async (resolve, reject) => {
@@ -100,8 +106,8 @@ let LectureService = class LectureService {
         }
         return result;
     }
-    async update({ req, id, updateLectureInput }) {
-        const { imageMainUrl, lectureCategoryId, many, expire, description, level, imageDetailLecture } = updateLectureInput, lecture = __rest(updateLectureInput, ["imageMainUrl", "lectureCategoryId", "many", "expire", "description", "level", "imageDetailLecture"]);
+    async update({ req, lecture, updateLectureInput }) {
+        const { imageMainUrl, lectureCategoryId, many, expire, description, level, imageDetailLecture } = updateLectureInput, rest = __rest(updateLectureInput, ["imageMainUrl", "lectureCategoryId", "many", "expire", "description", "level", "imageDetailLecture"]);
         if (req.user.role !== 'TEACHER')
             throw new common_1.UnprocessableEntityException('강의 등록 권한이 없습니다');
         let result;
@@ -109,12 +115,19 @@ let LectureService = class LectureService {
             const img = await this.imageMainLecture.save({
                 url: imageMainUrl
             });
-            result = await this.lectureRepository.save(Object.assign(Object.assign({ id: id }, lecture), { imageMainLecture: img, lectureCategory: { id: lectureCategoryId } }));
+            result = await this.lectureRepository.save(Object.assign(Object.assign({ id: lecture.id }, rest), { imageMainLecture: img, lectureCategory: { id: lectureCategoryId } }));
         }
         else {
-            result = await this.lectureRepository.save(Object.assign(Object.assign({ id: id }, lecture), { lectureCategory: { id: lectureCategoryId } }));
+            result = await this.lectureRepository.save(Object.assign(Object.assign({ id: lecture.id }, rest), { lectureCategory: { id: lectureCategoryId } }));
         }
+        await this.imageMainLecture.delete({
+            id: lecture.imageMainLecture.id
+        });
+        const lectureDetail = await this.lectureDetailRepository.findOne({
+            where: { lecture: { id: lecture.id } }
+        });
         await this.lectureDetailRepository.save({
+            id: lectureDetail.id,
             many,
             expire,
             description,
@@ -122,6 +135,11 @@ let LectureService = class LectureService {
             lecture: { id: result.id }
         });
         if (imageDetailLecture) {
+            await this.imageDetailRepository
+                .createQueryBuilder()
+                .delete()
+                .where('lectureId IN (:lectureId)', { lectureId: lecture.id })
+                .execute();
             await Promise.all(imageDetailLecture.map((el, i) => {
                 return new Promise(async (resolve, reject) => {
                     try {
@@ -139,19 +157,40 @@ let LectureService = class LectureService {
         }
         return result;
     }
-    async delete({ id }) {
-        return await this.lectureRepository.delete({
-            id: id
+    async delete({ lecture }) {
+        await this.imageDetailRepository
+            .createQueryBuilder()
+            .delete()
+            .where('lectureId IN (:lectureId)', { lectureId: lecture.id })
+            .execute();
+        await this.reviewRepository
+            .createQueryBuilder()
+            .delete()
+            .where('lectureId IN (:lectureId)', { lectureId: lecture.id })
+            .execute();
+        await this.lectureRepository.delete({
+            id: lecture.id
+        });
+        await this.curriculumRepository.delete({
+            id: lecture.curriculum.id
+        });
+        await this.imageMainLecture.delete({
+            id: lecture.imageMainLecture.id
+        });
+        await this.lectureDetailRepository.delete({
+            id: lecture.lectureDetail.id
         });
     }
 };
 LectureService = __decorate([
     __param(0, (0, typeorm_1.InjectRepository)(lecture_entity_1.Lecture)),
     __param(1, (0, typeorm_1.InjectRepository)(imageMainLecture_entity_1.ImageMainLecture)),
-    __param(2, (0, typeorm_1.InjectRepository)(category_entity_1.LectureCategory)),
-    __param(3, (0, typeorm_1.InjectRepository)(lectureDetail_entity_1.LectureDetail)),
-    __param(4, (0, typeorm_1.InjectRepository)(imageDetailLecture_entity_1.ImageDetailLecture)),
+    __param(2, (0, typeorm_1.InjectRepository)(review_entity_1.Review)),
+    __param(3, (0, typeorm_1.InjectRepository)(curriculum_entity_1.Curriculum)),
+    __param(4, (0, typeorm_1.InjectRepository)(lectureDetail_entity_1.LectureDetail)),
+    __param(5, (0, typeorm_1.InjectRepository)(imageDetailLecture_entity_1.ImageDetailLecture)),
     __metadata("design:paramtypes", [typeorm_2.Repository,
+        typeorm_2.Repository,
         typeorm_2.Repository,
         typeorm_2.Repository,
         typeorm_2.Repository,
