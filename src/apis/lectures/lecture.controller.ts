@@ -56,6 +56,7 @@ export class LectureController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard('teacher'))
   @ApiOperation({ summary: '강의 생성', description: '강의 생성 API' })
+  @ApiBody({ type: CreateLectureInput })
   async createLecture(
     @Req() req, //
     @Body() createLectureInput: CreateLectureInput
@@ -68,6 +69,7 @@ export class LectureController {
   @ApiBearerAuth()
   @UseGuards(AuthGuard('teacher'))
   @ApiOperation({ summary: '강의 업데이트', description: '강의 업데이트 API' })
+  @ApiBody({ type: UpdateLectureInput })
   async updateLecture(
     @Body() updateLectureInput: UpdateLectureInput,
     @Param('id') id: string,

@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { LectureCategory } from 'src/apis/categories/entities/category.entity';
 import { Curriculum } from 'src/apis/curriculum/entities/curriculum.entity';
 import { ImageDetailLecture } from 'src/apis/imageDetailLecture/entities/imageDetailLecture.entity';
