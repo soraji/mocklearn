@@ -12,4 +12,5 @@ export declare class User {
     role: string;
     paid: number;
     imageUser: ImageUser;
+    toJSON(): Record<string, any>;
 }

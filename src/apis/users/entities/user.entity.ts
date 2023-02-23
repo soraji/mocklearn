@@ -1,3 +1,4 @@
+import { classToPlain, Exclude } from 'class-transformer';
 import { ImageUser } from 'src/apis/imageUser/entities/imageUser.entity';
 import {
   Column,
@@ -26,7 +27,9 @@ export class User {
   @Column()
   phone: string;
 
-  @Column({ select: false })
+  @Exclude({ toPlainOnly: true })
+  // @Column({ select: false })
+  @Column()
   password: string;
 
   @Column({ type: 'enum', enum: USER_ENUM })
@@ -38,4 +41,8 @@ export class User {
   @JoinColumn()
   @OneToOne(() => ImageUser)
   imageUser: ImageUser;
+
+  toJSON() {
+    return classToPlain(this);
+  }
 }

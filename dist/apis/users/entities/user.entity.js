@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = exports.USER_ENUM = void 0;
+const class_transformer_1 = require("class-transformer");
 const imageUser_entity_1 = require("../../imageUser/entities/imageUser.entity");
 const typeorm_1 = require("typeorm");
 var USER_ENUM;
@@ -18,6 +19,9 @@ var USER_ENUM;
     USER_ENUM["S"] = "STUDENT";
 })(USER_ENUM = exports.USER_ENUM || (exports.USER_ENUM = {}));
 let User = class User {
+    toJSON() {
+        return (0, class_transformer_1.classToPlain)(this);
+    }
 };
 __decorate([
     (0, typeorm_1.PrimaryGeneratedColumn)('uuid'),
@@ -36,7 +40,8 @@ __decorate([
     __metadata("design:type", String)
 ], User.prototype, "phone", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ select: false }),
+    (0, class_transformer_1.Exclude)({ toPlainOnly: true }),
+    (0, typeorm_1.Column)(),
     __metadata("design:type", String)
 ], User.prototype, "password", void 0);
 __decorate([
