@@ -33,7 +33,7 @@ export class ImageDetailLectureController {
     schema: {
       type: 'object',
       properties: {
-        file: {
+        upload: {
           type: 'string',
           format: 'binary'
         }

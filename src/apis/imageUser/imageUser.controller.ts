@@ -1,34 +1,50 @@
-import { Controller, Post, Req, Res, UseGuards, UseInterceptors } from '@nestjs/common';
-import { ApiBearerAuth, ApiBody, ApiConsumes, ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  Controller,
+  Post,
+  Req,
+  Res,
+  UseGuards,
+  UseInterceptors
+} from '@nestjs/common';
+import {
+  ApiBearerAuth,
+  ApiBody,
+  ApiConsumes,
+  ApiCreatedResponse,
+  ApiOperation,
+  ApiTags
+} from '@nestjs/swagger';
 import { ImageUserService } from './imageUser.service';
-import {ImageUser} from './entities/imageUser.entity'
+import { ImageUser } from './entities/imageUser.entity';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('imageUser')
 @ApiTags('유저 이미지 업로드 API')
-@UseGuards(AuthGuard("teacher"))
+@UseGuards(AuthGuard('teacher'))
 export class ImageUserController {
   constructor(private readonly imageUserService: ImageUserService) {}
 
   @ApiBearerAuth()
   @Post()
-  @ApiOperation({ summary: '유저 이미지 업로드', description: '유저 이미지 업로드 API' })
-  @ApiCreatedResponse({ description: '이미지 등록이 완료되면 이미지 url을 보여줍니다' })
+  @ApiOperation({
+    summary: '유저 이미지 업로드',
+    description: '유저 이미지 업로드 API'
+  })
   @ApiBody({
     required: true,
-    type: "multipart/form-data",
+    type: 'multipart/form-data',
     schema: {
-      type: "object",
+      type: 'object',
       properties: {
-        file: {
-          type: "string",
-          format: "binary",
-        },
-      },
-    },
+        upload: {
+          type: 'string',
+          format: 'binary'
+        }
+      }
+    }
   })
-  @ApiConsumes("multipart/form-data")
+  @ApiConsumes('multipart/form-data')
   async create(@Req() request, @Res() response) {
     try {
       await this.imageUserService.fileupload(request, response);

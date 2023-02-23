@@ -18,14 +18,17 @@ export class UserService {
   ) {}
 
   async fetchAll() {
-    const result = await this.userRepository.find();
+    const result = await this.userRepository.find({
+      relations: ['imageUser']
+    });
 
     return result;
   }
 
   async fetch({ id }) {
     const result = await this.userRepository.findOne({
-      where: { id: id }
+      where: { id: id },
+      relations: ['imageUser']
     });
 
     return result;

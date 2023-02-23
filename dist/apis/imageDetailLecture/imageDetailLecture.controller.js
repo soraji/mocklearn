@@ -48,7 +48,7 @@ __decorate([
         schema: {
             type: 'object',
             properties: {
-                file: {
+                upload: {
                     type: 'string',
                     format: 'binary'
                 }
