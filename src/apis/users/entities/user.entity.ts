@@ -4,12 +4,12 @@ import {
   Entity,
   JoinColumn,
   OneToOne,
-  PrimaryGeneratedColumn,
+  PrimaryGeneratedColumn
 } from 'typeorm';
 
 export enum USER_ENUM {
   'T' = 'TEACHER',
-  'S' = 'STUDENT',
+  'S' = 'STUDENT'
 }
 
 @Entity()
@@ -26,14 +26,14 @@ export class User {
   @Column()
   phone: string;
 
-  @Column()
+  @Column({ select: false })
   password: string;
 
   @Column({ type: 'enum', enum: USER_ENUM })
   role: string;
 
-  @Column({default:0})
-  paid:number
+  @Column({ default: 0 })
+  paid: number;
 
   @JoinColumn()
   @OneToOne(() => ImageUser)

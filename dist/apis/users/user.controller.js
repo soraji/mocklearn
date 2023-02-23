@@ -22,37 +22,43 @@ let UserController = class UserController {
     constructor(userService) {
         this.userService = userService;
     }
-    async fetchAllLecture() {
+    async fetchAllUser() {
         return await this.userService.fetchAll();
     }
-    async fetchLecture(id) {
+    async fetchUser(id) {
         return await this.userService.fetch({ id });
     }
-    async createLecture(createUserInput) {
+    async createUser(createUserInput) {
         return await this.userService.create({ createUserInput });
     }
-    async updateLecture(updateUserInput, id) {
+    async updateUser(updateUserInput, id) {
         return await this.userService.update({ id, updateUserInput });
     }
-    async deleteLecture(id) {
+    async deleteUser(id) {
         return await this.userService.delete({ id });
     }
 };
 __decorate([
     (0, common_1.Get)('/'),
-    (0, swagger_1.ApiOperation)({ summary: '유저 전체 조회', description: '유저 전체 조회 API' }),
+    (0, swagger_1.ApiOperation)({
+        summary: '유저 전체 조회',
+        description: '유저 전체 조회 API'
+    }),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
-], UserController.prototype, "fetchAllLecture", null);
+], UserController.prototype, "fetchAllUser", null);
 __decorate([
     (0, common_1.Get)('/:id'),
-    (0, swagger_1.ApiOperation)({ summary: '유저 단일 조회', description: '유저 단일 조회 API' }),
+    (0, swagger_1.ApiOperation)({
+        summary: '유저 단일 조회',
+        description: '유저 단일 조회 API'
+    }),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
-], UserController.prototype, "fetchLecture", null);
+], UserController.prototype, "fetchUser", null);
 __decorate([
     (0, common_1.Post)('/'),
     (0, swagger_1.ApiOperation)({ summary: '유저 생성', description: '유저 생성 API' }),
@@ -60,7 +66,7 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [create_user_dto_1.CreateUserInput]),
     __metadata("design:returntype", Promise)
-], UserController.prototype, "createLecture", null);
+], UserController.prototype, "createUser", null);
 __decorate([
     (0, common_1.Patch)('/:id'),
     (0, swagger_1.ApiOperation)({ summary: '유저 업데이트', description: '유저 업데이트 API' }),
@@ -69,7 +75,7 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [update_user_dto_1.UpdateUserInput, String]),
     __metadata("design:returntype", Promise)
-], UserController.prototype, "updateLecture", null);
+], UserController.prototype, "updateUser", null);
 __decorate([
     (0, common_1.Delete)('/:id'),
     (0, swagger_1.ApiOperation)({ summary: '유저 삭제', description: '유저 삭제 API' }),
@@ -77,7 +83,7 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
-], UserController.prototype, "deleteLecture", null);
+], UserController.prototype, "deleteUser", null);
 UserController = __decorate([
     (0, common_1.Controller)('user'),
     (0, swagger_1.ApiTags)('유저 API'),
