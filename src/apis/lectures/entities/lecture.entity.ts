@@ -1,3 +1,4 @@
+import { classToPlain, Exclude } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 import { LectureCategory } from 'src/apis/categories/entities/category.entity';
 import { Curriculum } from 'src/apis/curriculum/entities/curriculum.entity';

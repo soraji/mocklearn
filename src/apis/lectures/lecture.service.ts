@@ -205,19 +205,15 @@ export class LectureService {
         lectureCategory: { id: lectureCategoryId }
       });
     }
-
+    console.log(lecture);
     /* (강의id에 해당하는) 기존에 저장되어있던 이미지 id 찾아 삭제 (저장(변경) 로직 밑에 적어야 삭제할때 PK에러 발생 방지)*/
     await this.imageMainLecture.delete({
       id: lecture.imageMainLecture.id
     });
 
-    const lectureDetail = await this.lectureDetailRepository.findOne({
-      where: { lecture: { id: lecture.id } }
-    });
-
     /* 강의를 등록하면 강의상세 테이블에도 자동으로 저장 */
     await this.lectureDetailRepository.save({
-      id: lectureDetail.id,
+      id: lecture.lectureDetail.id,
       many,
       expire,
       description,

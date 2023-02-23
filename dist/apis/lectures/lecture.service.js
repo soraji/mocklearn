@@ -139,14 +139,12 @@ let LectureService = class LectureService {
         else {
             result = await this.lectureRepository.save(Object.assign(Object.assign({ id: lecture.id }, rest), { lectureCategory: { id: lectureCategoryId } }));
         }
+        console.log(lecture);
         await this.imageMainLecture.delete({
             id: lecture.imageMainLecture.id
         });
-        const lectureDetail = await this.lectureDetailRepository.findOne({
-            where: { lecture: { id: lecture.id } }
-        });
         await this.lectureDetailRepository.save({
-            id: lectureDetail.id,
+            id: lecture.lectureDetail.id,
             many,
             expire,
             description,
