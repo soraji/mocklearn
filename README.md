@@ -1,6 +1,10 @@
 # Description
+
 [인프런](https://www.inflearn.com/) 사이트를 mocking한 개인 프로젝트 모크런입니다 ˚ ₊ ෆ꒰◍ᐡᐤᐡ◍꒱
 
+<br>
+
+'내가 만약 인프런 같은 서비스를 만든다면 어떻게 만들까? 🧐' 라는 생각에서 시작하게 되었습니다 : )
 
 <br>
 
@@ -8,14 +12,13 @@
 
 # Stack
 
-* NestJS
-* TypeSrcipt
-* PM2
-* MySQL
-* AWS EC2, S3, RDS, Route53
-* Jest
-* Swagger
-
+- NestJS
+- TypeSrcipt
+- PM2
+- MySQL
+- AWS EC2, S3, RDS, Route53
+- Jest
+- Swagger
 
 <br>
 
@@ -34,6 +37,7 @@ http://mocklearn.shop:3000/api-docs
 <br>
 
 # ERD
+
 https://www.erdcloud.com/d/vy74tce9trxBGQe4q
 
 <br>
@@ -94,6 +98,8 @@ https://www.erdcloud.com/d/vy74tce9trxBGQe4q
  ┃ ┃ ┃ ┗ 📂 entities
  ┃ ┃ ┃ ┃ ┗ 📜 lectureTag.entity.ts
  ┃ ┃ ┣ 📂 lectures
+ ┃ ┃ ┃ ┣ 📂 __test__
+ ┃ ┃ ┃ ┃ ┗ 📜 lecture.service.spec.ts
  ┃ ┃ ┃ ┣ 📂 dto
  ┃ ┃ ┃ ┃ ┣ 📜 create-lecture.dto.ts
  ┃ ┃ ┃ ┃ ┗ 📜 update-lecture.dto.ts
@@ -121,6 +127,9 @@ https://www.erdcloud.com/d/vy74tce9trxBGQe4q
  ┃ ┃ ┃ ┣ 📜 review.module.ts
  ┃ ┃ ┃ ┗ 📜 review.service.ts
  ┃ ┃ ┗ 📂 users
+ ┃ ┃ ┃ ┣ 📂 __test__
+ ┃ ┃ ┃ ┃ ┣ 📜 user.resolver.spec.ts
+ ┃ ┃ ┃ ┃ ┗ 📜 user.service.spec.ts
  ┃ ┃ ┃ ┣ 📂 dto
  ┃ ┃ ┃ ┃ ┣ 📜 create-user.dto.ts
  ┃ ┃ ┃ ┃ ┗ 📜 update-user.dto.ts
@@ -157,6 +166,4 @@ https://www.erdcloud.com/d/vy74tce9trxBGQe4q
  ┣ 📜 tsconfig.build.json
  ┣ 📜 tsconfig.json
  ┗ 📜 yarn.lock
- ```
-
-
+```
