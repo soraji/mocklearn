@@ -28,10 +28,12 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const user_entity_1 = require("./entities/user.entity");
+const imageUser_entity_1 = require("../imageUser/entities/imageUser.entity");
 const bcrypt = require("bcrypt");
 let UserService = class UserService {
-    constructor(userRepository) {
+    constructor(userRepository, imageUserRepository) {
         this.userRepository = userRepository;
+        this.imageUserRepository = imageUserRepository;
     }
     async fetchAll() {
         const result = await this.userRepository.find();
@@ -50,12 +52,18 @@ let UserService = class UserService {
         return result;
     }
     async create({ createUserInput }) {
-        const { email, password } = createUserInput, rest = __rest(createUserInput, ["email", "password"]);
+        const { email, password, imageUser } = createUserInput, rest = __rest(createUserInput, ["email", "password", "imageUser"]);
         const user = await this.userRepository.findOne({ where: { email } });
         if (user)
             throw new common_1.ConflictException('이미 가입된 이메일입니다');
+        let img;
+        if (imageUser) {
+            img = await this.imageUserRepository.save({
+                url: imageUser
+            });
+        }
         const hashedPassword = await bcrypt.hash(password, 10);
-        const result = await this.userRepository.save(Object.assign({ email, password: hashedPassword }, rest));
+        const result = await this.userRepository.save(Object.assign({ email, imageUser: img, password: hashedPassword }, rest));
         return result;
     }
     async update({ id, updateUserInput }) {
@@ -71,7 +79,9 @@ let UserService = class UserService {
 };
 UserService = __decorate([
     __param(0, (0, typeorm_1.InjectRepository)(user_entity_1.User)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __param(1, (0, typeorm_1.InjectRepository)(imageUser_entity_1.ImageUser)),
+    __metadata("design:paramtypes", [typeorm_2.Repository,
+        typeorm_2.Repository])
 ], UserService);
 exports.UserService = UserService;
 //# sourceMappingURL=user.service.js.map

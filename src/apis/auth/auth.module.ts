@@ -11,13 +11,12 @@ import { JwtKakaoStrategy } from 'src/common/auth/jwt-social-kakao.strategy';
 import { UserService } from '../users/user.service';
 import { User } from '../users/entities/user.entity';
 import { JwtTeacherStrategy } from 'src/common/auth/jwt-teacher.strategy';
+import { ImageUser } from '../imageUser/entities/imageUser.entity';
 
 @Module({
   imports: [
     JwtModule.register({}),
-    TypeOrmModule.forFeature([
-      User
-    ]),
+    TypeOrmModule.forFeature([User, ImageUser])
   ],
   providers: [
     JwtAccessStrategy, //
@@ -27,10 +26,10 @@ import { JwtTeacherStrategy } from 'src/common/auth/jwt-teacher.strategy';
     JwtNaverStrategy,
     JwtKakaoStrategy,
     AuthService,
-    UserService,
+    UserService
   ],
   controllers: [
-    AuthController, //
-  ],
+    AuthController //
+  ]
 })
 export class AuthModule {}

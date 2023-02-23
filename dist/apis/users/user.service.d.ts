@@ -1,8 +1,10 @@
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
+import { ImageUser } from '../imageUser/entities/imageUser.entity';
 export declare class UserService {
     private readonly userRepository;
-    constructor(userRepository: Repository<User>);
+    private readonly imageUserRepository;
+    constructor(userRepository: Repository<User>, imageUserRepository: Repository<ImageUser>);
     fetchAll(): Promise<User[]>;
     fetch({ id }: {
         id: any;

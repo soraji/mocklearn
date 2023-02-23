@@ -20,15 +20,14 @@ const jwt_social_kakao_strategy_1 = require("../../common/auth/jwt-social-kakao.
 const user_service_1 = require("../users/user.service");
 const user_entity_1 = require("../users/entities/user.entity");
 const jwt_teacher_strategy_1 = require("../../common/auth/jwt-teacher.strategy");
+const imageUser_entity_1 = require("../imageUser/entities/imageUser.entity");
 let AuthModule = class AuthModule {
 };
 AuthModule = __decorate([
     (0, common_1.Module)({
         imports: [
             jwt_1.JwtModule.register({}),
-            typeorm_1.TypeOrmModule.forFeature([
-                user_entity_1.User
-            ]),
+            typeorm_1.TypeOrmModule.forFeature([user_entity_1.User, imageUser_entity_1.ImageUser])
         ],
         providers: [
             jwt_access_strategy_1.JwtAccessStrategy,
@@ -38,11 +37,11 @@ AuthModule = __decorate([
             jwt_social_naver_strategy_1.JwtNaverStrategy,
             jwt_social_kakao_strategy_1.JwtKakaoStrategy,
             auth_service_1.AuthService,
-            user_service_1.UserService,
+            user_service_1.UserService
         ],
         controllers: [
-            auth_controller_1.AuthController,
-        ],
+            auth_controller_1.AuthController
+        ]
     })
 ], AuthModule);
 exports.AuthModule = AuthModule;
