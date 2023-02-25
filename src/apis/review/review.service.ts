@@ -22,7 +22,7 @@ export class ReviewService {
     //로그인한 유저가 작성한 수강평만 조회한다
     const result = await this.reviewRepository.findOne({
       where: { user: { id: req.user.id } },
-      relations: ['lecture']
+      relations: ['lecture', 'user']
     });
 
     return result;
@@ -31,7 +31,7 @@ export class ReviewService {
   async fetch({ id }) {
     const result = await this.reviewRepository.findOne({
       where: { id: id },
-      relations: ['lecture']
+      relations: ['lecture', 'user']
     });
 
     return result;
@@ -39,7 +39,7 @@ export class ReviewService {
 
   /****************************** 수강평 생성 ******************************/
   async create({ req, createReviewInput }) {
-    const { lectureId, ...review } = createReviewInput;
+    const { lectureId, star, content } = createReviewInput;
 
     // 수강평을 작성할 강의가 존재하는지 확인
     const lecture = await this.lectureRepository.findOne({
@@ -73,15 +73,24 @@ export class ReviewService {
 
     //수강평에 정보 저장
     const result = await this.reviewRepository.save({
-      ...review,
+      star,
+      content,
       lecture: { id: lectureId },
       user: { id: req.user.id }
     });
 
+    const calculateReviewCount = lecture.reviewCount + 1;
+
+    //수강평의 star를 합쳐 계산한 평균점수로 강의의 star점수 입력
+    const calculateStar =
+      (Number(lecture.star) * Number(lecture.reviewCount) + star) /
+      calculateReviewCount;
+
     //상품평 작성하면 상품에 상품평 count +1
     await this.lectureRepository.save({
       id: lectureId,
-      reviewCount: lecture.reviewCount + 1
+      reviewCount: calculateReviewCount,
+      star: String(calculateStar.toFixed(1))
     });
 
     return result;

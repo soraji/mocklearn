@@ -7,8 +7,8 @@ export class CreateReviewInput {
   })
   lectureId: string;
 
-  @ApiProperty({ description: '평점', example: '4.6' })
-  star: string;
+  @ApiProperty({ description: '평점', example: 4 })
+  star: number;
 
   @ApiProperty({
     description: '수강평 내용',

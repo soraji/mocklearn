@@ -36,7 +36,7 @@ export class ReviewController {
   @Get('/')
   @ApiOperation({
     summary: '수강평 조회',
-    description: '수강평 조회 API'
+    description: '본인이 작성한 수강평만 조회 가능'
   })
   async fetchAllLecture(@Req() req) {
     return await this.reviewService.fetchAll({ req });
