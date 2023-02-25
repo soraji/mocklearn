@@ -45,7 +45,7 @@ __decorate([
     (0, common_1.Get)('/'),
     (0, swagger_1.ApiOperation)({
         summary: '수강평 조회',
-        description: '수강평 조회 API'
+        description: '본인이 작성한 수강평만 조회 가능'
     }),
     __param(0, (0, common_1.Req)()),
     __metadata("design:type", Function),

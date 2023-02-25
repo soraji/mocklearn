@@ -15,9 +15,9 @@ export class Curriculum {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column('simple-array')
+  @Column({ type: 'simple-array', nullable: true })
   section: string[];
 
-  @Column('simple-array')
+  @Column({ type: 'simple-array', nullable: true })
   content: string[];
 }

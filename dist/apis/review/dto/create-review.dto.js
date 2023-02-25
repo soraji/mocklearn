@@ -21,8 +21,8 @@ __decorate([
     __metadata("design:type", String)
 ], CreateReviewInput.prototype, "lectureId", void 0);
 __decorate([
-    (0, swagger_1.ApiProperty)({ description: '평점', example: '4.6' }),
-    __metadata("design:type", String)
+    (0, swagger_1.ApiProperty)({ description: '평점', example: 4 }),
+    __metadata("design:type", Number)
 ], CreateReviewInput.prototype, "star", void 0);
 __decorate([
     (0, swagger_1.ApiProperty)({

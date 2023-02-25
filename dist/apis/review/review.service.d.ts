@@ -16,7 +16,16 @@ export declare class ReviewService {
     create({ req, createReviewInput }: {
         req: any;
         createReviewInput: any;
-    }): Promise<any>;
+    }): Promise<{
+        star: any;
+        content: any;
+        lecture: {
+            id: any;
+        };
+        user: {
+            id: any;
+        };
+    } & Review>;
     update({ req, review, updateReviewInput }: {
         req: any;
         review: any;

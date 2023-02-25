@@ -36,7 +36,7 @@ __decorate([
     __metadata("design:type", String)
 ], LectureDetail.prototype, "level", void 0);
 __decorate([
-    (0, typeorm_1.Column)('longtext'),
+    (0, typeorm_1.Column)({ type: 'longtext', nullable: true }),
     __metadata("design:type", String)
 ], LectureDetail.prototype, "description", void 0);
 LectureDetail = __decorate([

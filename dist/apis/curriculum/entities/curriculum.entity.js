@@ -18,11 +18,11 @@ __decorate([
     __metadata("design:type", String)
 ], Curriculum.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.Column)('simple-array'),
+    (0, typeorm_1.Column)({ type: 'simple-array', nullable: true }),
     __metadata("design:type", Array)
 ], Curriculum.prototype, "section", void 0);
 __decorate([
-    (0, typeorm_1.Column)('simple-array'),
+    (0, typeorm_1.Column)({ type: 'simple-array', nullable: true }),
     __metadata("design:type", Array)
 ], Curriculum.prototype, "content", void 0);
 Curriculum = __decorate([

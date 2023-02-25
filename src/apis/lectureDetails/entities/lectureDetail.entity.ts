@@ -28,6 +28,6 @@ export class LectureDetail {
   @Column({ type: 'enum', enum: LEVEL_ENUM })
   level: string;
 
-  @Column('longtext')
+  @Column({ type: 'longtext', nullable: true })
   description: string;
 }

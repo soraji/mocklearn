@@ -32,7 +32,7 @@ export class Lecture {
   @Column()
   price: string;
 
-  @Column()
+  @Column({ default: '0' })
   star: string;
 
   @Column()

@@ -6,7 +6,7 @@ export class ImageDetailLecture {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ default: '' })
+  @Column({ default: '', nullable: true })
   url: string;
 
   @ManyToOne(() => Lecture)

@@ -39,19 +39,19 @@ let ReviewService = class ReviewService {
     async fetchAll({ req }) {
         const result = await this.reviewRepository.findOne({
             where: { user: { id: req.user.id } },
-            relations: ['lecture']
+            relations: ['lecture', 'user']
         });
         return result;
     }
     async fetch({ id }) {
         const result = await this.reviewRepository.findOne({
             where: { id: id },
-            relations: ['lecture']
+            relations: ['lecture', 'user']
         });
         return result;
     }
     async create({ req, createReviewInput }) {
-        const { lectureId } = createReviewInput, review = __rest(createReviewInput, ["lectureId"]);
+        const { lectureId, star, content } = createReviewInput;
         const lecture = await this.lectureRepository.findOne({
             where: { id: lectureId }
         });
@@ -69,10 +69,19 @@ let ReviewService = class ReviewService {
             throw new common_1.UnprocessableEntityException(user.name +
                 '님은 이미 구매평을 작성하셨습니다. 구매한 강의에는 1개의 수강평만 작성 가능합니다');
         }
-        const result = await this.reviewRepository.save(Object.assign(Object.assign({}, review), { lecture: { id: lectureId }, user: { id: req.user.id } }));
+        const result = await this.reviewRepository.save({
+            star,
+            content,
+            lecture: { id: lectureId },
+            user: { id: req.user.id }
+        });
+        const calculateReviewCount = lecture.reviewCount + 1;
+        const calculateStar = (Number(lecture.star) * Number(lecture.reviewCount) + star) /
+            calculateReviewCount;
         await this.lectureRepository.save({
             id: lectureId,
-            reviewCount: lecture.reviewCount + 1
+            reviewCount: calculateReviewCount,
+            star: String(calculateStar.toFixed(1))
         });
         return result;
     }

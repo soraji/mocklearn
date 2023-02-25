@@ -36,7 +36,7 @@ __decorate([
     __metadata("design:type", String)
 ], Lecture.prototype, "price", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ default: '0' }),
     __metadata("design:type", String)
 ], Lecture.prototype, "star", void 0);
 __decorate([

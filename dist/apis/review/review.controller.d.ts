@@ -6,7 +6,16 @@ export declare class ReviewController {
     constructor(reviewService: ReviewService);
     fetchAllLecture(req: any): Promise<import("./entities/review.entity").Review>;
     fetchLecture(id: string): Promise<import("./entities/review.entity").Review>;
-    createLecture(req: any, createReviewInput: CreateReviewInput): Promise<any>;
+    createLecture(req: any, createReviewInput: CreateReviewInput): Promise<{
+        star: any;
+        content: any;
+        lecture: {
+            id: any;
+        };
+        user: {
+            id: any;
+        };
+    } & import("./entities/review.entity").Review>;
     updateLecture(updateReviewInput: UpdateReviewInput, id: string, req: any): Promise<any>;
     deleteLecture(id: string): Promise<import("typeorm").DeleteResult>;
 }

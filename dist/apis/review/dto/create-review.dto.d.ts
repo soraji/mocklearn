@@ -1,5 +1,5 @@
 export declare class CreateReviewInput {
     lectureId: string;
-    star: string;
+    star: number;
     content: string;
 }
