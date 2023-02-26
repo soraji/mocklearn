@@ -1,9 +1,11 @@
 import { classToPlain, Exclude } from 'class-transformer';
 import { ImageUser } from 'src/apis/imageUser/entities/imageUser.entity';
+import { Lecture } from 'src/apis/lectures/entities/lecture.entity';
 import {
   Column,
   Entity,
   JoinColumn,
+  OneToMany,
   OneToOne,
   PrimaryGeneratedColumn
 } from 'typeorm';
@@ -41,6 +43,10 @@ export class User {
   @JoinColumn()
   @OneToOne(() => ImageUser)
   imageUser: ImageUser;
+
+  @JoinColumn()
+  @OneToMany(() => Lecture, Lecture => Lecture.user)
+  Lecture: Lecture;
 
   toJSON() {
     return classToPlain(this);

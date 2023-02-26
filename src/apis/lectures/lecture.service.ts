@@ -42,7 +42,7 @@ export class LectureService {
       order: {
         price: 'ASC'
       },
-      relations: ['lectureCategory', 'imageMainLecture', 'lectureTags']
+      relations: ['lectureCategory', 'imageMainLecture', 'lectureTags', 'user']
     });
 
     return result;
@@ -53,6 +53,7 @@ export class LectureService {
     const result = await this.lectureRepository.findOne({
       where: { id: id },
       relations: [
+        'user',
         'lectureCategory',
         'lectureDetail',
         'imageMainLecture',
@@ -136,6 +137,7 @@ export class LectureService {
     /* 이미지와 카테고리를 합쳐 강의 등록 */
     const result = await this.lectureRepository.save({
       ...lecture,
+      user: { id: req.user.id },
       lectureTags: temp,
       imageMainLecture: img,
       lectureCategory: { id: lectureCategoryId },
@@ -179,9 +181,14 @@ export class LectureService {
       ...rest
     } = updateLectureInput;
 
-    /* TEACHER 권한을 가진 사용자만 강의 등록 가능 */
-    if (req.user.role !== 'TEACHER')
-      throw new UnprocessableEntityException('강의 등록 권한이 없습니다');
+    /* 강의를 등록한 TEACHER 유저만 강의 등록 가능 */
+    const lectureCheck = await this.lectureRepository.findOne({
+      where: { id: lecture.id },
+      relations: ['user']
+    });
+
+    if (lectureCheck.user.id !== req.user.id)
+      throw new UnprocessableEntityException('강의 수정 권한이 없습니다');
 
     let result: Lecture;
     /* 메인 이미지를 변경하려고 한다면 */

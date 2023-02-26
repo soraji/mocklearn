@@ -17,6 +17,7 @@ import {
   OneToOne,
   OneToMany
 } from 'typeorm';
+import { User } from 'src/apis/users/entities/user.entity';
 
 @Entity()
 export class Lecture {
@@ -27,19 +28,19 @@ export class Lecture {
   title: string;
 
   @Column()
-  teacher: string;
-
-  @Column()
   price: string;
 
   @Column({ default: '0' })
   star: string;
 
-  @Column()
+  @Column({ default: 0 })
   reviewCount: number;
 
   @ManyToOne(() => LectureCategory)
   lectureCategory: LectureCategory;
+
+  @ManyToOne(() => User)
+  user: User;
 
   @JoinColumn()
   @OneToOne(() => Curriculum)
@@ -53,6 +54,7 @@ export class Lecture {
   @OneToOne(() => ImageMainLecture)
   imageMainLecture: ImageMainLecture;
 
+  @JoinColumn()
   @OneToMany(
     () => ImageDetailLecture,
     imageDetailLecture => imageDetailLecture.lecture
