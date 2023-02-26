@@ -19,10 +19,10 @@ export class LectureDetail {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ default: 0 })
   many: number;
 
-  @Column()
+  @Column({ default: '9999-01-01' })
   expire: Date;
 
   @Column({ type: 'enum', enum: LEVEL_ENUM })

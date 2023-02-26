@@ -24,11 +24,11 @@ __decorate([
     __metadata("design:type", String)
 ], LectureDetail.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ default: 0 }),
     __metadata("design:type", Number)
 ], LectureDetail.prototype, "many", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ default: '9999-01-01' }),
     __metadata("design:type", Date)
 ], LectureDetail.prototype, "expire", void 0);
 __decorate([

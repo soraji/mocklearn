@@ -51,7 +51,7 @@ let LectureService = class LectureService {
             order: {
                 price: 'ASC'
             },
-            relations: ['lectureCategory', 'imageMainLecture', 'lectureTags']
+            relations: ['lectureCategory', 'imageMainLecture', 'lectureTags', 'user']
         });
         return result;
     }
@@ -59,6 +59,7 @@ let LectureService = class LectureService {
         const result = await this.lectureRepository.findOne({
             where: { id: id },
             relations: [
+                'user',
                 'lectureCategory',
                 'lectureDetail',
                 'imageMainLecture',
@@ -106,7 +107,7 @@ let LectureService = class LectureService {
             section,
             content
         });
-        const result = await this.lectureRepository.save(Object.assign(Object.assign({}, lecture), { lectureTags: temp, imageMainLecture: img, lectureCategory: { id: lectureCategoryId }, lectureDetail: { id: detail.id }, curriculum: { id: curr.id } }));
+        const result = await this.lectureRepository.save(Object.assign(Object.assign({}, lecture), { user: { id: req.user.id }, lectureTags: temp, imageMainLecture: img, lectureCategory: { id: lectureCategoryId }, lectureDetail: { id: detail.id }, curriculum: { id: curr.id } }));
         if (imageDetailLecture) {
             await Promise.all(imageDetailLecture.map((el, i) => {
                 return new Promise(async (resolve, reject) => {
@@ -127,8 +128,12 @@ let LectureService = class LectureService {
     }
     async update({ req, lecture, updateLectureInput }) {
         const { imageMainUrl, lectureCategoryId, many, expire, description, level, imageDetailLecture } = updateLectureInput, rest = __rest(updateLectureInput, ["imageMainUrl", "lectureCategoryId", "many", "expire", "description", "level", "imageDetailLecture"]);
-        if (req.user.role !== 'TEACHER')
-            throw new common_1.UnprocessableEntityException('강의 등록 권한이 없습니다');
+        const lectureCheck = await this.lectureRepository.findOne({
+            where: { id: lecture.id },
+            relations: ['user']
+        });
+        if (lectureCheck.user.id !== req.user.id)
+            throw new common_1.UnprocessableEntityException('강의 수정 권한이 없습니다');
         let result;
         if (imageMainUrl) {
             const img = await this.imageMainLecture.save({

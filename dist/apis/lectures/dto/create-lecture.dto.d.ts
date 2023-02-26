@@ -1,7 +1,6 @@
 import { LEVEL_ENUM } from 'src/apis/lectureDetails/entities/lectureDetail.entity';
 export declare class CreateLectureInput {
     title: string;
-    teacher: string;
     price: number;
     imageMainUrl: string;
     lectureCategoryId: string;

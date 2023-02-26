@@ -12,6 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = exports.USER_ENUM = void 0;
 const class_transformer_1 = require("class-transformer");
 const imageUser_entity_1 = require("../../imageUser/entities/imageUser.entity");
+const lecture_entity_1 = require("../../lectures/entities/lecture.entity");
 const typeorm_1 = require("typeorm");
 var USER_ENUM;
 (function (USER_ENUM) {
@@ -57,6 +58,11 @@ __decorate([
     (0, typeorm_1.OneToOne)(() => imageUser_entity_1.ImageUser),
     __metadata("design:type", imageUser_entity_1.ImageUser)
 ], User.prototype, "imageUser", void 0);
+__decorate([
+    (0, typeorm_1.JoinColumn)(),
+    (0, typeorm_1.OneToMany)(() => lecture_entity_1.Lecture, Lecture => Lecture.user),
+    __metadata("design:type", lecture_entity_1.Lecture)
+], User.prototype, "Lecture", void 0);
 User = __decorate([
     (0, typeorm_1.Entity)()
 ], User);

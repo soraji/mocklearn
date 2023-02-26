@@ -17,6 +17,7 @@ const imageMainLecture_entity_1 = require("../../imageMainLecture/entities/image
 const lectureDetail_entity_1 = require("../../lectureDetails/entities/lectureDetail.entity");
 const lectureTag_entity_1 = require("../../lectureTags/entities/lectureTag.entity");
 const typeorm_1 = require("typeorm");
+const user_entity_1 = require("../../users/entities/user.entity");
 let Lecture = class Lecture {
 };
 __decorate([
@@ -30,23 +31,23 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], Lecture.prototype, "teacher", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
 ], Lecture.prototype, "price", void 0);
 __decorate([
     (0, typeorm_1.Column)({ default: '0' }),
     __metadata("design:type", String)
 ], Lecture.prototype, "star", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ default: 0 }),
     __metadata("design:type", Number)
 ], Lecture.prototype, "reviewCount", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => category_entity_1.LectureCategory),
     __metadata("design:type", category_entity_1.LectureCategory)
 ], Lecture.prototype, "lectureCategory", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => user_entity_1.User),
+    __metadata("design:type", user_entity_1.User)
+], Lecture.prototype, "user", void 0);
 __decorate([
     (0, typeorm_1.JoinColumn)(),
     (0, typeorm_1.OneToOne)(() => curriculum_entity_1.Curriculum),
@@ -63,6 +64,7 @@ __decorate([
     __metadata("design:type", imageMainLecture_entity_1.ImageMainLecture)
 ], Lecture.prototype, "imageMainLecture", void 0);
 __decorate([
+    (0, typeorm_1.JoinColumn)(),
     (0, typeorm_1.OneToMany)(() => imageDetailLecture_entity_1.ImageDetailLecture, imageDetailLecture => imageDetailLecture.lecture),
     __metadata("design:type", Array)
 ], Lecture.prototype, "imageDetailLecture", void 0);

@@ -49,7 +49,7 @@ export class AuthController {
   @ApiBody({
     schema: {
       properties: {
-        email: { type: 'string', example: 'user@gmail.com' },
+        email: { type: 'string', example: 'test@gmail.com' },
         password: { type: 'string', example: '1234' }
       }
     }
