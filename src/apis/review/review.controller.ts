@@ -38,7 +38,7 @@ export class ReviewController {
     summary: '수강평 조회',
     description: '본인이 작성한 수강평만 조회 가능'
   })
-  async fetchAllLecture(@Req() req) {
+  async fetchAllReview(@Req() req) {
     return await this.reviewService.fetchAll({ req });
   }
 
@@ -47,17 +47,14 @@ export class ReviewController {
     summary: '수강평 조회',
     description: '수강평 조회 API'
   })
-  async fetchLecture(@Param('id') id: string) {
+  async fetchReview(@Param('id') id: string) {
     return await this.reviewService.fetch({ id });
   }
 
   /****************************** 수강평 생성 ******************************/
   @Post('/')
   @ApiOperation({ summary: '수강평 생성', description: '수강평 생성 API' })
-  async createLecture(
-    @Req() req,
-    @Body() createReviewInput: CreateReviewInput
-  ) {
+  async createReview(@Req() req, @Body() createReviewInput: CreateReviewInput) {
     return await this.reviewService.create({ req, createReviewInput });
   }
 
@@ -67,7 +64,7 @@ export class ReviewController {
     summary: '수강평 업데이트',
     description: '수강평 업데이트 API'
   })
-  async updateLecture(
+  async updateReview(
     @Body() updateReviewInput: UpdateReviewInput,
     @Param('id') id: string,
     @Req() req
@@ -80,7 +77,7 @@ export class ReviewController {
   /****************************** 수강평 삭제 ******************************/
   @Delete('/:id')
   @ApiOperation({ summary: '수강평 삭제', description: '수강평 삭제 API' })
-  async deleteLecture(@Param('id') id: string) {
+  async deleteReview(@Param('id') id: string) {
     const review = await this.reviewService.fetch({ id });
 
     return await this.reviewService.delete({ review });
